@@ -255,6 +255,7 @@ geographic-result-claims = non-empty<{
 
 ear.geographic-result-label = eat.JC<"TBD02", TBD01>
 
+grc.jurisdiction-subdivision-exclave-label); the block now parses):draft-richardson-rats-geographic-results.md
 grc.jurisdiction-country-label = eat.JC<"grc.jurisdiction-country", 0>
 grc.jurisdiction-country-exclave-label =
         eat.JC<"grc.jurisdiction-country-exclave", 1>
@@ -272,14 +273,14 @@ grc.cabinet-number = eat.JC<"grc.cabinet-number", 9>
 grc.hallway-number = eat.JC<"grc.hallway-number", 10>
 grc.room-number = eat.JC<"grc.room-number", 12>
 grc.floor-number = eat.JC<"grc.floor-number", 11>
-grc.claim-uuid = eat.JC("corim.uuid-type", 12>
-grc.provence   = eat.JC("grc.provence-values", 13>
+grc.provence   = eat.JC("grc.provence-values", 12>
 
 ; the class of artifact a geographic result
 ;     rests on (RFC 9334, Section 4.2)
 grc.claim-uuid-label = eat.JC<"grc.claim-uuid", 14>
-grc.basis-label = eat.JC<"grc.basis", 15>
+grc.claim-uuid = corim.uuid-type
 
+grc.basis-label = eat.JC<"grc.basis", 15>
 grc.basis-class = &(
   evidence: 0,
   endorsement: 1,
