@@ -184,7 +184,7 @@ geographic-result-claims = non-empty<{
   ? grc.jurisdiction-country-label => iso-3166-alpha-2-country-code
   ? grc.jurisdiction-country-exclave-label => bool
   ? grc.jurisdiction-subdivision-label => tstr .size (2..16)
-  ? grc.jurisdiction-state-exclave-label => bool
+  ? grc.jurisdiction-subdivision-exclave-label => bool
   ? grc.jurisdiction-city-label => tstr .size(2..16)
   ? grc.jurisdiction-city-exclave-label => bool
   ? grc.enclosing-exclave-country-label => iso-3166-alpha-2-country-code
@@ -198,6 +198,7 @@ geographic-result-claims = non-empty<{
 
 ear.geographic-result-label = eat.JC<"TBD02", TBD01>
 
+grc.jurisdiction-subdivision-exclave-label); the block now parses):draft-richardson-rats-geographic-results.md
 grc.jurisdiction-country-label = eat.JC<"grc.jurisdiction-country", 0>
 grc.jurisdiction-country-exclave-label = eat.JC<"grc.jurisdiction-country-exclave", 1>
 grc.jurisdiction-subdivision-label = eat.JC<"grc.jurisdiction-state", 2>
