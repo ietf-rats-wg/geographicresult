@@ -527,6 +527,33 @@ Encoded (36 bytes):
 a400624e4c046945656d73686176656e0d505e1a26c009cb5e8489c4f9efa68f78ad0e02
 ~~~~
 
+{{fig-wire}} annotates both encodings byte by byte.
+
+~~~~
+Microsoft Azure, West Europe: basis endorsement, 25 bytes
+
+a3                                      # map(3)
+   00                                   #  key 0 jurisdiction-country
+   62 4e4c                              #  text(2) "NL"
+   0d                                   #  key 13 claim-uuid
+   50 814f1a077ed25b798641788ef6dab3a1  #  bytes(16)
+   0e                                   #  key 14 basis
+   01                                   #  1 = endorsement
+
+Google Cloud, europe-west4: basis attestation-result, 36 bytes
+
+a4                                      # map(4)
+   00                                   #  key 0 jurisdiction-country
+   62 4e4c                              #  text(2) "NL"
+   04                                   #  key 4 jurisdiction-city
+   69 45656d73686176656e                #  text(9) "Eemshaven"
+   0d                                   #  key 13 claim-uuid
+   50 5e1a26c009cb5e8489c4f9efa68f78ad  #  bytes(16)
+   0e                                   #  key 14 basis
+   02                                   #  2 = attestation-result
+~~~~
+{: #fig-wire title="The two results, annotated"}
+
 The jurisdiction claim is the same four bytes, 00 62 4e 4c, in each.
 Both maps validate against the CDDL in this document; a map carrying `basis` 3, `basis` as a text string, or a 15-byte `claim-uuid` is rejected.
 The Verifier used is a minimal implementation of this document written by one of the authors.
