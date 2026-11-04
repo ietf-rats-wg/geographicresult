@@ -131,6 +131,27 @@ Resolving the question of where certain computations are done can be critical to
 
 {{I-D.ietf-rats-ear}} provides a framework that allows an {{-Architecture}} Verifier to return a conclusion as to geographic region for an Target Environment.
 
+{{fig-dataflow}} places the geographic result in the data flow of {{-Architecture}}: the Verifier appraises Evidence or Endorsements about location by a method outside this document and returns one format to the Relying Party.
+
+~~~~ aasvg
+                   Endorsement about location        Appraisal Policy
+.----------.       (an auditor, Appendix A)          for Attestation
+| Endorser +--------------------------.              Results
+'----------'                          |                     |
+                                      v                     v
+.----------.  Evidence of     .---------------.     .---------------.
+| Attester +----------------->|   Verifier    |     | Relying Party |
+'----------'  location:       | appraises by  |  AR | reads one     |
+              GNSS, PTP,      | a method this +---->| format,       |
+              TRIP, V-PEA     | document does |     | whatever the  |
+                              | not define    |     | method        |
+                              '---------------'     '---------------'
+
+AR = Attestation Result carrying geographic-result-claims:
+     the jurisdiction claims, claim-uuid and basis
+~~~~
+{: #fig-dataflow title="Geographic Attestation Result in the RATS data flow"}
+
 While {{RFC9711, Section 4.2.10}} provides a very good WGS84 based location claim, often very suitable as Evidence, it is not ideal for the use by Relying Parties.
 
 There are a few reasons:
@@ -213,10 +234,9 @@ $$ear-appraisal-extension //= (
 )
 
 geographic-result-claims = non-empty<{
-  ? grc.claim-uuid => grc.claim-uuid
+  ? grc.claim-uuid-label => grc.claim-uuid
+  ? grc.basis-label => grc.basis-class
   ? grc.provence   => grc.provence-values
-  ? grm.claim-uuid-label => corim.uuid-type
-  ? grm.basis-label => grm.basis-class
   ? grc.jurisdiction-country-label => iso-3166-alpha-2-country-code
   ? grc.jurisdiction-country-exclave-label => bool
   ? grc.jurisdiction-subdivision-label => tstr .size (2..16)
@@ -235,19 +255,17 @@ geographic-result-claims = non-empty<{
 
 ear.geographic-result-label = eat.JC<"TBD02", TBD01>
 
-; the class of artifact a geographic result rests on (RFC 9334, Section 4.2)
-grc.basis-class = &(
-  evidence: 0,
-  endorsement: 1,
-  attestation-result: 2,
-)
 grc.jurisdiction-country-label = eat.JC<"grc.jurisdiction-country", 0>
-grc.jurisdiction-country-exclave-label = eat.JC<"grc.jurisdiction-country-exclave", 1>
+grc.jurisdiction-country-exclave-label =
+        eat.JC<"grc.jurisdiction-country-exclave", 1>
 grc.jurisdiction-subdivision-label = eat.JC<"grc.jurisdiction-state", 2>
-grc.jurisdiction-subdivision-exclave-label = eat.JC<"grc.jurisdiction-subdivision-exclave", 3>
+grc.jurisdiction-subdivision-exclave-label =
+        eat.JC<"grc.jurisdiction-subdivision-exclave", 3>
 grc.jurisdiction-city-label = eat.JC<"grc.jurisdiction-city", 4>
-grc.jurisdiction-city-exclave-label = eat.JC<"grc.jurisdiction-city-exclave", 5>
-grc.enclosing-exclave-country-label = eat.JC<"grc.enclosing-exclave-country", 6>
+grc.jurisdiction-city-exclave-label =
+        eat.JC<"grc.jurisdiction-city-exclave", 5>
+grc.enclosing-exclave-country-label =
+        eat.JC<"grc.enclosing-exclave-country", 6>
 grc.near-to-label  = eat.JC<"grc.near-to", 7>
 grc.rack-U-number-label = eat.JC<"grc.rack-U-number", 8>
 grc.cabinet-number = eat.JC<"grc.cabinet-number", 9>
@@ -257,8 +275,16 @@ grc.floor-number = eat.JC<"grc.floor-number", 11>
 grc.claim-uuid = eat.JC("corim.uuid-type", 12>
 grc.provence   = eat.JC("grc.provence-values", 13>
 
+; the class of artifact a geographic result
+;     rests on (RFC 9334, Section 4.2)
 grc.claim-uuid-label = eat.JC<"grc.claim-uuid", 14>
 grc.basis-label = eat.JC<"grc.basis", 15>
+
+grc.basis-class = &(
+  evidence: 0,
+  endorsement: 1,
+  attestation-result: 2,
+)
 
 grc.zone-membership-label = eat.JC<"grc.zone-membership", 19>
 grc.zone-membership = [
