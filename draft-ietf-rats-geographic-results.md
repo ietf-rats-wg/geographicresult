@@ -8,17 +8,17 @@ docname: draft-ietf-rats-geographic-results-latest
 submissiontype: IETF
 consensus: true
 v: 3
-area: Security
-workgroup: RATS (if adopted)
+area: "Security"
+workgroup: "Remote ATtestation ProcedureS"
 keyword:
  - geofence
  - workload
  - soverign computing
 venue:
-  group: RATS
-  type: Working Group
-  mail: rats@ietf.org
-  github: mcr/geographicresult
+  group: "Remote ATtestation ProcedureS"
+  type: "Working Group"
+  mail: "rats@ietf.org"
+  github: "ietf-rats-wg/geographicresult"
 
 author:
 - ins: M. Richardson
