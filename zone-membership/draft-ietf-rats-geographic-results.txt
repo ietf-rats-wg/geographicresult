@@ -9,7 +9,7 @@ Expires: 18 May 2027                                    14 November 2026
 
 
                      Geographic Attestation Results
-            draft-richardson-rats-geographic-results-latest
+               draft-ietf-rats-geographic-results-latest
 
 Abstract
 
@@ -32,8 +32,7 @@ About This Document
    This note is to be removed before publishing as an RFC.
 
    Status information for this document may be found at
-   https://datatracker.ietf.org/doc/draft-richardson-rats-geographic-
-   results/.
+   https://datatracker.ietf.org/doc/draft-ietf-rats-geographic-results/.
 
    Discussion of this document takes place on the RATS Working Group
    mailing list (mailto:rats@ietf.org), which is archived at
@@ -86,6 +85,7 @@ Table of Contents
      5.2.  Integrity Threats
      5.3.  Availability Threats
    6.  IANA Considerations
+     6.1.  Provenance Values
    7.  References
      7.1.  Normative References
      7.2.  Informative References
@@ -109,8 +109,6 @@ Table of Contents
 
    Resolving the question of where certain computations are done can be
    critical to assessing how much trust to put into the result.
-
-   MORE USE CASES HERE.
 
    [I-D.ietf-rats-ear] provides a framework that allows an [RFC9334]
    Verifier to return a conclusion as to geographic region for an Target
@@ -256,11 +254,12 @@ $$ear-appraisal-extension //= (
 )
 
 geographic-result-claims = non-empty<{
-  ? grm.claim-uuid => corim.uuid-type
+  ? grc.claim-uuid => grc.claim-uuid
+  ? grc.provence   => grc.provence-values
   ? grc.jurisdiction-country-label => iso-3166-alpha-2-country-code
   ? grc.jurisdiction-country-exclave-label => bool
   ? grc.jurisdiction-subdivision-label => tstr .size (2..16)
-  ? grc.jurisdiction-state-exclave-label => bool
+  ? grc.jurisdiction-subdivision-exclave-label => bool
   ? grc.jurisdiction-city-label => tstr .size(2..16)
   ? grc.jurisdiction-city-exclave-label => bool
   ? grc.enclosing-exclave-country-label => iso-3166-alpha-2-country-code
@@ -289,6 +288,8 @@ grc.cabinet-number = eat.JC<"grc.cabinet-number", 9>
 grc.hallway-number = eat.JC<"grc.hallway-number", 10>
 grc.room-number = eat.JC<"grc.room-number", 12>
 grc.floor-number = eat.JC<"grc.floor-number", 11>
+grc.claim-uuid = eat.JC("corim.uuid-type", 12>
+grc.provence   = eat.JC("grc.provence-values", 13>
 
 grc.zone-membership-label = eat.JC<"grc.zone-membership", 19>
 grc.zone-membership = [
@@ -453,6 +454,26 @@ iso-3166-alpha-2-country-code = tstr .size 2
    registry [IANA.cwt] (from a Specification Required Integer range),
    and TBD02 (suggestion: "ear.geographic-result-claims") from the "JSON
    Web Token Claims" registry [IANA.jwt].
+
+6.1.  Provenance Values
+
+   IANA is asked to create a new registry, "Geographic Results
+   Provenance Values".  This registry contains the following columns:
+
+   *  a string/label of up to 12 characters
+
+   *  one unsigned integer.
+
+   *  a reference to the RFC
+
+   New values may be added by RFC Required.  The string SHALL be the
+   name of the RFC in the form "RFC123456" (for an RFC of that number)
+   and the integer SHALL be the number 123456.
+
+   Note that only documents that actually standardize ways to calculate
+   geographic results, are to be included.  Implementers MAY use a
+   string of the form "I-D.something" for both JSON and CBOR encoded
+   results as Private Use values prior to publication of an RFC.
 
 7.  References
 

@@ -19,7 +19,7 @@ In addition, one mechanism of directly creating a geographic result in the form 
 <meta content="geofence" name="keyword">
 <meta content="workload" name="keyword">
 <meta content="soverign computing" name="keyword">
-<meta content="draft-richardson-rats-geographic-results-latest" name="ietf.draft">
+<meta content="draft-ietf-rats-geographic-results-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.35.0
     Python 3.14.10
@@ -35,7 +35,7 @@ In addition, one mechanism of directly creating a geographic result in the form 
     requests 2.33.1
     wcwidth 0.9.4
 -->
-<link href="draft-richardson-rats-geographic-results.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-ietf-rats-geographic-results.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">@font-face {
   font-family: 'Lora';
@@ -1063,7 +1063,7 @@ svg {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">RATS (if adopted)</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-richardson-rats-geographic-results-latest</dd>
+<dd class="internet-draft">draft-ietf-rats-geographic-results-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
 <time datetime="2026-11-14" class="published">14 November 2026</time>
@@ -1100,7 +1100,7 @@ In addition, one mechanism of directly creating a geographic result in the form 
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">
-        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-richardson-rats-geographic-results/">https://datatracker.ietf.org/doc/draft-richardson-rats-geographic-results/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-ietf-rats-geographic-results/">https://datatracker.ietf.org/doc/draft-ietf-rats-geographic-results/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
 <p id="section-note.1-3">
         Discussion of this document takes place on the
         RATS Working Group mailing list (<span><a href="mailto:rats@ietf.org">mailto:rats@ietf.org</a></span>),
@@ -1190,6 +1190,11 @@ In addition, one mechanism of directly creating a geographic result in the form 
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-provenance-values" class="internal xref">Provenance Values</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-references" class="internal xref">References</a></p>
@@ -1263,42 +1268,41 @@ In addition, one mechanism of directly creating a geographic result in the form 
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">Resolving the question of where certain computations are done can be critical to assessing how much trust to put into the result.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">MORE USE CASES HERE.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3"><span>[<a href="#I-D.ietf-rats-ear" class="cite xref">I-D.ietf-rats-ear</a>]</span> provides a framework that allows an <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> Verifier to return a conclusion as to geographic region for an Target Environment.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">While <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>], <a href="https://rfc-editor.org/rfc/rfc9711#section-4.2.10" class="relref">Section 4.2.10</a></span> provides a very good WGS84 based location claim, often very suitable as Evidence, it is not ideal for the use by Relying Parties.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">There are a few reasons:<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-2"><span>[<a href="#I-D.ietf-rats-ear" class="cite xref">I-D.ietf-rats-ear</a>]</span> provides a framework that allows an <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> Verifier to return a conclusion as to geographic region for an Target Environment.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">While <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>], <a href="https://rfc-editor.org/rfc/rfc9711#section-4.2.10" class="relref">Section 4.2.10</a></span> provides a very good WGS84 based location claim, often very suitable as Evidence, it is not ideal for the use by Relying Parties.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">There are a few reasons:<a href="#section-1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1-6.1">
-          <p id="section-1-6.1.1">the latitude and longitude describe a location on the Earth. The Relying Party is seldom interested in that level of detail.  It needs to know if it's in an acceptable place.<a href="#section-1-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-1-5.1">
+          <p id="section-1-5.1.1">the latitude and longitude describe a location on the Earth. The Relying Party is seldom interested in that level of detail.  It needs to know if it's in an acceptable place.<a href="#section-1-5.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-6.2">
-          <p id="section-1-6.2.1">the geographic position can leak significant amount of private information that is not necessary for the Relying Party to know.   Information not collected/stored can not be inadvertently disclosed.<a href="#section-1-6.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-1-5.2">
+          <p id="section-1-5.2.1">the geographic position can leak significant amount of private information that is not necessary for the Relying Party to know.   Information not collected/stored can not be inadvertently disclosed.<a href="#section-1-5.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-6.3">
-          <p id="section-1-6.3.1">for many activities, it is the Legal Jurisdiction that matters, not the actual location.
+        <li class="normal" id="section-1-5.3">
+          <p id="section-1-5.3.1">for many activities, it is the Legal Jurisdiction that matters, not the actual location.
 Jurisdictions often do not have well defined concentric boundaries.
 For instance, the South Korean Consultate in Los Angelos is usually for Legal purposes, in Korea.
-Yet, only a few meters away, possibly below the level of WGS84 accuracy, the jurisdiction would be different.<a href="#section-1-6.3.1" class="pilcrow">¶</a></p>
+Yet, only a few meters away, possibly below the level of WGS84 accuracy, the jurisdiction would be different.<a href="#section-1-5.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-1-7">This document offers a new set of structured abstract claims that provides an evaluated view of where a Target Environment is.
-The mechanism to do this appraisal may depend upon a number of factors which may be related to physical geographic position, but also include other considerations.<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">There are many different ways in which a Verifier might generate this result from Evidence and/or Endorsements that are provided to it.
+<p id="section-1-6">This document offers a new set of structured abstract claims that provides an evaluated view of where a Target Environment is.
+The mechanism to do this appraisal may depend upon a number of factors which may be related to physical geographic position, but also include other considerations.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">There are many different ways in which a Verifier might generate this result from Evidence and/or Endorsements that are provided to it.
 The exact method can be important for a small number of uses, but more often, if the Verify is trusted, then the details are not important.
 The exact method may be of interest only during forensic audits.
-This document does <em>not</em> standardize any mechanism for a Verify to appraise location data.<a href="#section-1-8" class="pilcrow">¶</a></p>
-<p id="section-1-9">The most obvious way is through various Global Navitation Satellite Systems (GNSS): the United States Global Positioning System (GPS), Russia's Global Navigation Satellite System (GLONASS), China's BeiDou Navigation Satellite System (BDS) and the European Union's Galileo.
+This document does <em>not</em> standardize any mechanism for a Verify to appraise location data.<a href="#section-1-7" class="pilcrow">¶</a></p>
+<p id="section-1-8">The most obvious way is through various Global Navitation Satellite Systems (GNSS): the United States Global Positioning System (GPS), Russia's Global Navigation Satellite System (GLONASS), China's BeiDou Navigation Satellite System (BDS) and the European Union's Galileo.
 These signals can be spoofed, manipulated and suppressed, however that does not render these signals useless, just that the level of trust must be carefully evaluated.
-There are also many environments, such as inside a (Faraday) cage in a Data Center, where GNSS signals do not reach.<a href="#section-1-9" class="pilcrow">¶</a></p>
-<p id="section-1-10">There are also other radio methods, such as time of travel calculations from a mobile (LTE) tower.<a href="#section-1-10" class="pilcrow">¶</a></p>
-<p id="section-1-11"><span>[<a href="#I-D.lkspa-rats-verifiable-geo-fence" class="cite xref">I-D.lkspa-rats-verifiable-geo-fence</a>]</span> provides a more general architecture for such evaluations.<a href="#section-1-11" class="pilcrow">¶</a></p>
-<p id="section-1-12">As an example of another method, described in <span>[<a href="#I-D.ramki-ptp-hardware-rooted-attestation" class="cite xref">I-D.ramki-ptp-hardware-rooted-attestation</a>]</span>,  there could be Evidence that a Target Environment is less than 1ns (as light travels in a fiber optic cable) away from another Target Enviroment whose location is known.
-Given a typical fiber optic cable has a speed of 200,000 kilometers per second (slower than light in a vacuum due to the index of refraction of the glass involved), so if the round trip time between environments is 1ns, then the distance between Target Environments can be appraised to be within 1m of each other.<a href="#section-1-12" class="pilcrow">¶</a></p>
-<p id="section-1-13">Whether or not any of these methods are a good enough measure of location is not the subject of this document.
-Rather, if a Verifier believes that information trustworthy for the purpose intended, then it may use the format described here to document it's conclusion.<a href="#section-1-13" class="pilcrow">¶</a></p>
-<p id="section-1-14">In addition to detailing the Attestation Result (EAR) format for the results, this document also addresses the case of an Endorsement created as to a device's location.
+There are also many environments, such as inside a (Faraday) cage in a Data Center, where GNSS signals do not reach.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<p id="section-1-9">There are also other radio methods, such as time of travel calculations from a mobile (LTE) tower.<a href="#section-1-9" class="pilcrow">¶</a></p>
+<p id="section-1-10"><span>[<a href="#I-D.lkspa-rats-verifiable-geo-fence" class="cite xref">I-D.lkspa-rats-verifiable-geo-fence</a>]</span> provides a more general architecture for such evaluations.<a href="#section-1-10" class="pilcrow">¶</a></p>
+<p id="section-1-11">As an example of another method, described in <span>[<a href="#I-D.ramki-ptp-hardware-rooted-attestation" class="cite xref">I-D.ramki-ptp-hardware-rooted-attestation</a>]</span>,  there could be Evidence that a Target Environment is less than 1ns (as light travels in a fiber optic cable) away from another Target Enviroment whose location is known.
+Given a typical fiber optic cable has a speed of 200,000 kilometers per second (slower than light in a vacuum due to the index of refraction of the glass involved), so if the round trip time between environments is 1ns, then the distance between Target Environments can be appraised to be within 1m of each other.<a href="#section-1-11" class="pilcrow">¶</a></p>
+<p id="section-1-12">Whether or not any of these methods are a good enough measure of location is not the subject of this document.
+Rather, if a Verifier believes that information trustworthy for the purpose intended, then it may use the format described here to document it's conclusion.<a href="#section-1-12" class="pilcrow">¶</a></p>
+<p id="section-1-13">In addition to detailing the Attestation Result (EAR) format for the results, this document also addresses the case of an Endorsement created as to a device's location.
 <a href="#presence" class="auto internal xref">Appendix A</a> details a processs by which this Endorsement could be generated by a human auditor equipped with a smartphone, tablet, or dedicated auditing device.
-<a href="#presence" class="auto internal xref">Appendix A</a> is not a normative part of the Attestation Result defined below, but it is considered a normative process defined by this document.<a href="#section-1-14" class="pilcrow">¶</a></p>
+<a href="#presence" class="auto internal xref">Appendix A</a> is not a normative part of the Attestation Result defined below, but it is considered a normative process defined by this document.<a href="#section-1-13" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1388,11 +1392,12 @@ $$ear-appraisal-extension //= (
 )
 
 geographic-result-claims = non-empty&lt;{
-  ? grm.claim-uuid =&gt; corim.uuid-type
+  ? grc.claim-uuid =&gt; grc.claim-uuid
+  ? grc.provence   =&gt; grc.provence-values
   ? grc.jurisdiction-country-label =&gt; iso-3166-alpha-2-country-code
   ? grc.jurisdiction-country-exclave-label =&gt; bool
   ? grc.jurisdiction-subdivision-label =&gt; tstr .size (2..16)
-  ? grc.jurisdiction-state-exclave-label =&gt; bool
+  ? grc.jurisdiction-subdivision-exclave-label =&gt; bool
   ? grc.jurisdiction-city-label =&gt; tstr .size(2..16)
   ? grc.jurisdiction-city-exclave-label =&gt; bool
   ? grc.enclosing-exclave-country-label =&gt; iso-3166-alpha-2-country-code
@@ -1421,6 +1426,8 @@ grc.cabinet-number = eat.JC&lt;"grc.cabinet-number", 9&gt;
 grc.hallway-number = eat.JC&lt;"grc.hallway-number", 10&gt;
 grc.room-number = eat.JC&lt;"grc.room-number", 12&gt;
 grc.floor-number = eat.JC&lt;"grc.floor-number", 11&gt;
+grc.claim-uuid = eat.JC("corim.uuid-type", 12&gt;
+grc.provence   = eat.JC("grc.provence-values", 13&gt;
 
 grc.zone-membership-label = eat.JC&lt;"grc.zone-membership", 19&gt;
 grc.zone-membership = [
@@ -1547,6 +1554,31 @@ However, it is possible that such an attack could make subsequent calculations i
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
 <p id="section-6-1">IANA is asked to allocate TBD01 from the "CBOR Web Token Claims" registry <span>[<a href="#IANA.cwt" class="cite xref">IANA.cwt</a>]</span> (from a Specification Required Integer range), and TBD02 (suggestion: "ear.geographic-result-claims") from the "JSON Web Token Claims" registry <span>[<a href="#IANA.jwt" class="cite xref">IANA.jwt</a>]</span>.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<div id="provenance-values">
+<section id="section-6.1">
+        <h3 id="name-provenance-values">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-provenance-values" class="section-name selfRef">Provenance Values</a>
+        </h3>
+<p id="section-6.1-1">IANA is asked to create a new registry, "Geographic Results Provenance Values".
+This registry contains the following columns:<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.1-2.1">
+            <p id="section-6.1-2.1.1">a string/label of up to 12 characters<a href="#section-6.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.2">
+            <p id="section-6.1-2.2.1">one unsigned integer.<a href="#section-6.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.1-2.3">
+            <p id="section-6.1-2.3.1">a reference to the RFC<a href="#section-6.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-6.1-3">New values may be added by RFC Required.
+The string <span class="bcp14">SHALL</span> be the name of the RFC in the form "RFC123456" (for an RFC of that number) and the integer <span class="bcp14">SHALL</span> be the number 123456.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">Note that only documents that actually standardize ways to calculate geographic results, are to be included.
+Implementers <span class="bcp14">MAY</span> use a string of the form "I-D.something" for both JSON and CBOR
+encoded results as Private Use values prior to publication of an RFC.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="sec-combined-references">
