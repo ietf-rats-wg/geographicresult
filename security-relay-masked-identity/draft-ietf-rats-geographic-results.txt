@@ -5,11 +5,11 @@
 RATS (if adopted)                                          M. Richardson
 Internet-Draft                                  Sandelman Software Works
 Intended status: Standards Track                          S. Nikolaichuk
-Expires: 16 May 2027                                    12 November 2026
+Expires: 18 May 2027                                    14 November 2026
 
 
                      Geographic Attestation Results
-            draft-richardson-rats-geographic-results-latest
+               draft-ietf-rats-geographic-results-latest
 
 Abstract
 
@@ -32,8 +32,7 @@ About This Document
    This note is to be removed before publishing as an RFC.
 
    Status information for this document may be found at
-   https://datatracker.ietf.org/doc/draft-richardson-rats-geographic-
-   results/.
+   https://datatracker.ietf.org/doc/draft-ietf-rats-geographic-results/.
 
    Discussion of this document takes place on the RATS Working Group
    mailing list (mailto:rats@ietf.org), which is archived at
@@ -58,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 May 2027.
+   This Internet-Draft will expire on 18 May 2027.
 
 Copyright Notice
 
@@ -80,6 +79,7 @@ Table of Contents
    2.  Conventions and Definitions
    3.  Claim definition
    4.  CDDL Definition
+     4.1.  Zone Membership
    5.  Security Considerations
      5.1.  Confidentiality Threats
      5.2.  Integrity Threats
@@ -87,6 +87,7 @@ Table of Contents
      5.4.  Masked Platform Identities
      5.5.  Availability Threats
    6.  IANA Considerations
+     6.1.  Provenance Values
    7.  References
      7.1.  Normative References
      7.2.  Informative References
@@ -110,8 +111,6 @@ Table of Contents
 
    Resolving the question of where certain computations are done can be
    critical to assessing how much trust to put into the result.
-
-   MORE USE CASES HERE.
 
    [I-D.ietf-rats-ear] provides a framework that allows an [RFC9334]
    Verifier to return a conclusion as to geographic region for an Target
@@ -235,6 +234,8 @@ Table of Contents
 
    13.  floor-number = string, usually representing an integer.
 
+   14.  zone-membership = membership in an operator-defined zone.
+
    There are some additional things which may be received as Evidence,
    but which is sometimes important to convert to Results, having
    verified some aspects.  (TBD)
@@ -255,11 +256,12 @@ $$ear-appraisal-extension //= (
 )
 
 geographic-result-claims = non-empty<{
-  ? grm.claim-uuid => corim.uuid-type
+  ? grc.claim-uuid => grc.claim-uuid
+  ? grc.provence   => grc.provence-values
   ? grc.jurisdiction-country-label => iso-3166-alpha-2-country-code
   ? grc.jurisdiction-country-exclave-label => bool
   ? grc.jurisdiction-subdivision-label => tstr .size (2..16)
-  ? grc.jurisdiction-state-exclave-label => bool
+  ? grc.jurisdiction-subdivision-exclave-label => bool
   ? grc.jurisdiction-city-label => tstr .size(2..16)
   ? grc.jurisdiction-city-exclave-label => bool
   ? grc.enclosing-exclave-country-label => iso-3166-alpha-2-country-code
@@ -269,6 +271,7 @@ geographic-result-claims = non-empty<{
   ? grc.hallway-number => uint
   ? grc.room-number => tstr .size (2..64)
   ? grc.floor-number => int
+  ? grc.zone-membership-label => grc.zone-membership
 }>
 
 ear.geographic-result-label = eat.JC<"TBD02", TBD01>
@@ -287,6 +290,16 @@ grc.cabinet-number = eat.JC<"grc.cabinet-number", 9>
 grc.hallway-number = eat.JC<"grc.hallway-number", 10>
 grc.room-number = eat.JC<"grc.room-number", 12>
 grc.floor-number = eat.JC<"grc.floor-number", 11>
+grc.claim-uuid = eat.JC("corim.uuid-type", 12>
+grc.provence   = eat.JC("grc.provence-values", 13>
+
+grc.zone-membership-label = eat.JC<"grc.zone-membership", 19>
+grc.zone-membership = [
+  zone-id: tstr .size (1..255),
+  boundary-digest: eat.JC<grc.zone-digest-json, grc.zone-digest-cbor>
+]
+grc.zone-digest-json = eat.base64-url-text .size 43
+grc.zone-digest-cbor = bstr .size 32
 
 iso-3166-alpha-2-country-code = tstr .size 2
 
@@ -359,6 +372,27 @@ iso-3166-alpha-2-country-code = tstr .size 2
    way to tell a hardware-rooted result from an operator-typed label,
    even though both may appear in the same claims map above.
 
+4.1.  Zone Membership
+
+   The optional grc.zone-membership claim asserts that the Verifier
+   established that the Target Environment was inside the identified
+   zone.  Omission conveys no conclusion about membership.  A zone can
+   be defined by a geographic boundary, such as a polygon, or by a set
+   of physical placements, such as rooms or cabinets.  The claim can
+   appear alone or alongside the placement and jurisdiction claims.  For
+   example, a Verifier could report membership in an approved zone
+   spanning several rooms and also report the cabinet number.
+
+   The zone-id is assigned by the operator and interpreted in a
+   namespace known to the Verifier and Relying Party.  The boundary-
+   digest is the SHA-256 digest [FIPS180-4] of the exact octets of the
+   zone definition used for appraisal.  The zone definition's format and
+   encoding are agreed out of band.  The digest is a byte string in CBOR
+   and unpadded base64url text in JSON.  A Relying Party using the claim
+   for a policy decision MUST match both the identifier and the digest
+   to the expected values in its appraisal policy.  Any jurisdiction
+   claim requires its own appraisal.
+
 5.  Security Considerations
 
    These considerations do not cover the protocol described in
@@ -378,6 +412,16 @@ iso-3166-alpha-2-country-code = tstr .size 2
    which case the location, even bstracted would be PII.  It is almost
    always preferable for this artifact to remain private, however the
    integrity of the artifact is not compromised if that is not the case.
+
+   When precise coordinates should be withheld from the Verifier, the
+   Attester can supply Evidence containing or referencing a zero-
+   knowledge membership proof, as in the V-PEA privacy-technique = "zkp"
+   mode [I-D.lkspa-rats-verifiable-geo-fence].  The Verifier can
+   appraise the proof without collecting the coordinates and report only
+   membership in the zone definition used to verify the proof.  Zone
+   identifiers, boundary digests, and accompanying placement claims can
+   still reveal location.  Verifiers SHOULD disclose only the geographic
+   detail the Relying Party needs.
 
 5.2.  Integrity Threats
 
@@ -479,9 +523,34 @@ iso-3166-alpha-2-country-code = tstr .size 2
    and TBD02 (suggestion: "ear.geographic-result-claims") from the "JSON
    Web Token Claims" registry [IANA.jwt].
 
+6.1.  Provenance Values
+
+   IANA is asked to create a new registry, "Geographic Results
+   Provenance Values".  This registry contains the following columns:
+
+   *  a string/label of up to 12 characters
+
+   *  one unsigned integer.
+
+   *  a reference to the RFC
+
+   New values may be added by RFC Required.  The string SHALL be the
+   name of the RFC in the form "RFC123456" (for an RFC of that number)
+   and the integer SHALL be the number 123456.
+
+   Note that only documents that actually standardize ways to calculate
+   geographic results, are to be included.  Implementers MAY use a
+   string of the form "I-D.something" for both JSON and CBOR encoded
+   results as Private Use values prior to publication of an RFC.
+
 7.  References
 
 7.1.  Normative References
+
+   [FIPS180-4]
+              National Institute of Standards and Technology, "Secure
+              Hash Standard (SHS)", August 2015,
+              <https://doi.org/10.6028/NIST.FIPS.180-4>.
 
    [I-D.ietf-rats-ear]
               Fossati, T., Voit, E., Trofimov, S., and H. Birkholz, "EAT
