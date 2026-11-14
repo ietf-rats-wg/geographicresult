@@ -1,0 +1,78 @@
+; # import rfc9711 as eat
+; # import rfcXXXX as corim
+
+$$ear-appraisal-extension //= (
+    ear.geographic-result-label => geographic-result-claims
+)
+
+geographic-result-claims = non-empty<{
+  ? grc.claim-uuid-label => grc.claim-uuid
+  ? grc.basis-label => grc.basis-class
+  ? grc.basis-ref-label => corim.uuid-type
+  ? grc.provence   => grc.provence-values
+  ? grc.observed-from-label => time
+  ? grc.observed-until-label => time
+  ? grc.jurisdiction-country-label => iso-3166-alpha-2-country-code
+  ? grc.jurisdiction-country-exclave-label => bool
+  ? grc.jurisdiction-subdivision-label => tstr .size (2..16)
+  ? grc.jurisdiction-subdivision-exclave-label => bool
+  ? grc.jurisdiction-city-label => tstr .size(2..16)
+  ? grc.jurisdiction-city-exclave-label => bool
+  ? grc.enclosing-exclave-country-label => iso-3166-alpha-2-country-code
+  ? grc.near-to-label => corim.uuid-type
+  ? grc.rack-U-number-label => uint .gt 0
+  ? grc.cabinet-number => uint .gt 0
+  ? grc.hallway-number => uint
+  ? grc.room-number => tstr .size (2..64)
+  ? grc.floor-number => int
+  ? grc.zone-membership-label => grc.zone-membership
+}>
+
+ear.geographic-result-label = eat.JC<"TBD02", TBD01>
+
+grc.jurisdiction-country-label = eat.JC<"grc.jurisdiction-country", 0>
+grc.jurisdiction-country-exclave-label =
+        eat.JC<"grc.jurisdiction-country-exclave", 1>
+grc.jurisdiction-subdivision-label = eat.JC<"grc.jurisdiction-state", 2>
+grc.jurisdiction-subdivision-exclave-label =
+        eat.JC<"grc.jurisdiction-subdivision-exclave", 3>
+grc.jurisdiction-city-label = eat.JC<"grc.jurisdiction-city", 4>
+grc.jurisdiction-city-exclave-label =
+        eat.JC<"grc.jurisdiction-city-exclave", 5>
+grc.enclosing-exclave-country-label =
+        eat.JC<"grc.enclosing-exclave-country", 6>
+grc.near-to-label  = eat.JC<"grc.near-to", 7>
+grc.rack-U-number-label = eat.JC<"grc.rack-U-number", 8>
+grc.cabinet-number = eat.JC<"grc.cabinet-number", 9>
+grc.hallway-number = eat.JC<"grc.hallway-number", 10>
+grc.room-number = eat.JC<"grc.room-number", 12>
+grc.floor-number = eat.JC<"grc.floor-number", 11>
+
+grc.claim-uuid-label = eat.JC<"grc.claim-uuid", 13>
+grc.claim-uuid = corim.uuid-type
+
+grc.basis-label = eat.JC<"grc.basis", 14>
+; the class of artifact a geographic result
+;     rests on (RFC 9334, Section 4.2)
+grc.basis-class = &(
+  evidence: 0,
+  endorsement: 1,
+  attestation-result: 2,
+)
+
+grc.provence = eat.JC<"grc.provence", 15>
+grc.provence-values = tstr / uint
+
+grc.basis-ref-label = eat.JC<"grc.basis-ref", 16>
+grc.observed-from-label = eat.JC<"grc.observed-from", 17>
+grc.observed-until-label = eat.JC<"grc.observed-until", 18>
+
+grc.zone-membership-label = eat.JC<"grc.zone-membership", 19>
+grc.zone-membership = [
+  zone-id: tstr .size (1..255),
+  boundary-digest: eat.JC<grc.zone-digest-json, grc.zone-digest-cbor>
+]
+grc.zone-digest-json = eat.base64-url-text .size 43
+grc.zone-digest-cbor = bstr .size 32
+
+iso-3166-alpha-2-country-code = tstr .size 2

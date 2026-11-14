@@ -1,0 +1,6 @@
+{
+  / grc.jurisdiction-country / 0: "NL",
+  / grc.jurisdiction-city /    4: "Eemshaven",
+  / grc.claim-uuid /          13: h'5e1a26c009cb5e8489c4f9efa68f78ad',
+  / grc.basis /               14: 2  / attestation-result /
+}

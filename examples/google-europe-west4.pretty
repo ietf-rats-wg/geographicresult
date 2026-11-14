@@ -1,0 +1,9 @@
+a4                                      # map(4)
+   00                                   #  key 0 jurisdiction-country
+   62 4e4c                              #  text(2) "NL"
+   04                                   #  key 4 jurisdiction-city
+   69 45656d73686176656e                #  text(9) "Eemshaven"
+   0d                                   #  key 13 claim-uuid
+   50 5e1a26c009cb5e8489c4f9efa68f78ad  #  bytes(16)
+   0e                                   #  key 14 basis
+   02                                   #  2 = attestation-result

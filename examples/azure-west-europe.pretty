@@ -1,0 +1,7 @@
+a3                                      # map(3)
+   00                                   #  key 0 jurisdiction-country
+   62 4e4c                              #  text(2) "NL"
+   0d                                   #  key 13 claim-uuid
+   50 814f1a077ed25b798641788ef6dab3a1  #  bytes(16)
+   0e                                   #  key 14 basis
+   01                                   #  1 = endorsement
