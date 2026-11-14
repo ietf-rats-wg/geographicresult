@@ -4,7 +4,7 @@ title: "Geographic Attestation Results"
 abbrev: "geoAR"
 category: std
 
-docname: draft-richardson-rats-geographic-results-latest
+docname: draft-ietf-rats-geographic-results-latest
 submissiontype: IETF
 consensus: true
 v: 3
@@ -25,6 +25,7 @@ author:
   name: Michael Richardson
   org: Sandelman Software Works
   email: mcr+ietf@sandelman.ca
+
 - ins: S. Nikolaichuk
   name: Serhii Nikolaichuk
   email: nikolaichuk.s.f@gmail.com
@@ -93,7 +94,7 @@ In addition, one mechanism of directly creating a geographic result in the form 
 
 Resolving the question of where certain computations are done can be critical to assessing how much trust to put into the result.
 
-MORE USE CASES HERE.
+<!-- MORE USE CASES HERE. -->
 
 {{I-D.ietf-rats-ear}} provides a framework that allows an {{-Architecture}} Verifier to return a conclusion as to geographic region for an Target Environment.
 
