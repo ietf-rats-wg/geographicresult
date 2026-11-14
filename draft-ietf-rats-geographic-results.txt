@@ -251,8 +251,8 @@ $$ear-appraisal-extension //= (
 )
 
 geographic-result-claims = non-empty<{
-  ? grm.claim-uuid => corim.uuid-type
-  ? grm.provence   => grc.provence-values
+  ? grc.claim-uuid => grc.claim-uuid
+  ? grc.provence   => grc.provence-values
   ? grc.jurisdiction-country-label => iso-3166-alpha-2-country-code
   ? grc.jurisdiction-country-exclave-label => bool
   ? grc.jurisdiction-subdivision-label => tstr .size (2..16)
