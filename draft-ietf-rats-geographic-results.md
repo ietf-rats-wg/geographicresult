@@ -28,6 +28,7 @@ author:
 
 - ins: S. Nikolaichuk
   name: Serhii Nikolaichuk
+  org: The Capital Index LLC
   email: nikolaichuk.s.f@gmail.com
 
 normative:
