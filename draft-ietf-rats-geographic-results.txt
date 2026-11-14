@@ -83,7 +83,9 @@ Table of Contents
    5.  Security Considerations
      5.1.  Confidentiality Threats
      5.2.  Integrity Threats
-     5.3.  Availability Threats
+     5.3.  Relayed Results
+     5.4.  Masked Platform Identities
+     5.5.  Availability Threats
    6.  IANA Considerations
      6.1.  Provenance Values
    7.  References
@@ -436,7 +438,73 @@ iso-3166-alpha-2-country-code = tstr .size 2
    Environment, and carried through another protocol from Attester to
    Verifier.
 
-5.3.  Availability Threats
+5.3.  Relayed Results
+
+   A geographic Attestation Result states where the Attester's platform
+   was found to be, not where the Relying Party's peer is.  An Attester
+   elsewhere can present a genuine Result that a platform in the
+   attested place obtained, and nothing in the Result itself shows the
+   substitution; this is the diversion attack of [ID-Crisis]
+   (Section 8).
+
+      in place P                                   elsewhere
+   .------------.  Evidence  .----------.  AR     .------------.
+   | Attester X +----------->| Verifier +-------->| Attester Y |
+   '------------'  bound to  '----------'  for P  '-----+------'
+                   session S                            | presents the
+                                                        | genuine AR in
+                                                        | its session S'
+                                                        v
+                                                 .---------------.
+                                                 | Relying Party |
+                                                 '---------------'
+
+        Figure 1: A relayed Result, and the binding that defeats it
+
+   A Relying Party SHOULD therefore require that the Evidence behind the
+   Result be bound to the session in which the Result is used, and a
+   Verifier SHOULD carry that binding into the Result.  The binding has
+   to be to a value derived from the session's shared secret, such as
+   the TLS exporter value of [RFC9266], placed in the freshness field of
+   the Evidence (REPORT_DATA for AMD SEV-SNP, REPORTDATA for Intel TDX,
+   the extraData of a TPM quote).  Binding the Evidence to the
+   Attester's public key, with or without a nonce, does not correlate it
+   with the session: anyone else who holds the private key, because it
+   leaked, was provisioned at runtime or was extracted on another
+   machine, can present that Evidence in a session of their own, as the
+   analysis of binding mechanisms 4 and 6 in [Intra-handshake.fail]
+   shows.  The public key MAY be included alongside the shared-secret-
+   derived value; the binding then holds while either of the two is
+   unknown to the attacker ([Intra-handshake.fail], Section 7.2).  A
+   Result that is merely fresh is not bound.
+
+5.4.  Masked Platform Identities
+
+   Some platforms hide the hardware identity from the guest by policy.
+   Under AMD SEV-SNP the host may set MaskChipId, in which case CHIP_ID
+   is zero in every guest report, and may disable the per-chip key for a
+   guest (VCEK_DIS), in which case the report is signed by a key that
+   every machine the provider enrolled in one key domain shares
+   [SNP-ABI].  The two are independent choices of the host and neither
+   is visible in the report except by its effect: a report can carry the
+   per-chip signature with a zero CHIP_ID, and then only a party that
+   learns the chip identity from the host side can obtain the
+   certificate that verifies it, so the certificate is itself a
+   statement by the operator.  The two key domains also tell a Verifier
+   different things: the shared key is issued by the manufacturer to an
+   enrolled provider and wrapped to each chip ([SNP-ABI], Section 3.7),
+   so a report under it shows which provider's fleet the chip was
+   enrolled in without naming the chip, while the per-chip key names the
+   chip without the provider.  A zeroed or shared identity is an input
+   to appraisal policy, not an error.  It means that the Verifier's
+   location conclusion cannot rest on the identity of the chip, and
+   therefore rests on a statement by the provider or on another
+   Verifier's Result; the provenance information in this document exists
+   so that the Relying Party can see which.  A Relying Party whose
+   policy requires a per-machine identity SHOULD treat such a Result as
+   resting on the provider.
+
+5.5.  Availability Threats
 
    This artifact is the result of a calculation or audit that
    establishes a result.  Once created, it can be valid for a period of
@@ -546,8 +614,24 @@ iso-3166-alpha-2-country-code = tstr .size 2
    [IANA.jwt] IANA, "JSON Web Token (JWT)",
               <https://www.iana.org/assignments/jwt>.
 
+   [ID-Crisis]
+              Sardar, M. U., Moustafa, M., and T. Aura, "Identity Crisis
+              in Confidential Computing: Formal Analysis of Attested
+              TLS", Proceedings of the ACM Asia Conference on Computer
+              and Communications Security pp. 547-560, June 2026,
+              <https://doi.org/10.1145/3779208.3785387>.
+
    [IDevID]   IEEE Standard, "IEEE 802.1AR Secure Device Identifier",
               2018, <https://1.ieee802.org/security/802-1ar/l>.
+
+   [Intra-handshake.fail]
+              Sardar, M. U., Dubeyko, V., and J.-M. Jacquet, "Intra-
+              handshake.fail (CVE-2026-33697): High-severity CVE in
+              Attested TLS", 31st European Symposium on Research in
+              Computer Security (ESORICS) LNCS, to appear, September
+              2026, <https://www.researchgate.net/
+              publication/408219182_Intra-handshakefail_CVE-2026-
+              33697_High-severity_CVE_in_Attested_TLS>.
 
    [LLDP]     IEEE Standard, "802.1AB-REV - Station and Media Access
               Control Connectivity Discovery", 19 June 2009,
@@ -560,6 +644,10 @@ iso-3166-alpha-2-country-code = tstr .size 2
    [ptp]      Wikipedia, "Precision Time Protocol", 7 October 2025,
               <https://en.wikipedia.org/wiki/Precision_Time_Protocol>.
 
+   [RFC9266]  Whited, S., "Channel Bindings for TLS 1.3", RFC 9266,
+              DOI 10.17487/RFC9266, July 2022,
+              <https://www.rfc-editor.org/rfc/rfc9266>.
+
    [RFC9360]  Schaad, J., "CBOR Object Signing and Encryption (COSE):
               Header Parameters for Carrying and Referencing X.509
               Certificates", RFC 9360, DOI 10.17487/RFC9360, February
@@ -567,6 +655,11 @@ iso-3166-alpha-2-country-code = tstr .size 2
 
    [rollover] Wikipedia, "Console Rollover Cable", 26 April 2025,
               <https://en.wikipedia.org/wiki/Rollover_cable>.
+
+   [SNP-ABI]  Advanced Micro Devices, "SEV Secure Nested Paging Firmware
+              ABI Specification, Revision 1.58", May 2025,
+              <https://www.amd.com/content/dam/amd/en/documents/
+              developer/56860.pdf>.
 
    [speed]    Genuine Modules, "How fast does fiber optics travel?", 7
               October 2025, <https://www.genuinemodules.com/how-fast-

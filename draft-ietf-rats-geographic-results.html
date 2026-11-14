@@ -1184,7 +1184,13 @@ In addition, one mechanism of directly creating a geographic result in the form 
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-integrity-threats" class="internal xref">Integrity Threats</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-availability-threats" class="internal xref">Availability Threats</a></p>
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-relayed-results" class="internal xref">Relayed Results</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-masked-platform-identities" class="internal xref">Masked Platform Identities</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
+                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-availability-threats" class="internal xref">Availability Threats</a></p>
 </li>
             </ul>
 </li>
@@ -1535,15 +1541,106 @@ The claims present in this document will most often be combined with other claim
 The Endorsement may be provided to a Verifier through out of band means, or it can be stored by the Attesting Environment, and carried through another protocol from Attester to Verifier.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="availability-threats">
+<div id="relayed-results">
 <section id="section-5.3">
-        <h3 id="name-availability-threats">
-<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-availability-threats" class="section-name selfRef">Availability Threats</a>
+        <h3 id="name-relayed-results">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-relayed-results" class="section-name selfRef">Relayed Results</a>
         </h3>
-<p id="section-5.3-1">This artifact is the result of a calculation or audit that establishes a result.
-Once created, it can be valid for a period of time from seconds (GNSS result on a martphone) to months (human audit of a data center).<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">Distruptions to the mechanism of location calculation do not make the result of the previous calculation invalid.
-However, it is possible that such an attack could make subsequent calculations infeasible.  For instance, the GNSS signals can easily be jammed.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3-1">A geographic Attestation Result states where the Attester's platform was found to be, not where the Relying Party's peer is.
+An Attester elsewhere can present a genuine Result that a platform in the attested place obtained, and nothing in the Result itself shows the substitution; this is the diversion attack of <span>[<a href="#ID-Crisis" class="cite xref">ID-Crisis</a>]</span> (Section 8).<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<span id="name-a-relayed-result-and-the-bi"></span><div id="fig-relay">
+<figure id="figure-1">
+          <div id="section-5.3-2.1">
+            <div class="alignLeft art-svg artwork" id="section-5.3-2.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="208" width="560" viewBox="0 0 560 208" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,48 L 8,80" fill="none" stroke="black"></path>
+                <path d="M 112,48 L 112,80" fill="none" stroke="black"></path>
+                <path d="M 216,48 L 216,80" fill="none" stroke="black"></path>
+                <path d="M 304,48 L 304,80" fill="none" stroke="black"></path>
+                <path d="M 376,160 L 376,192" fill="none" stroke="black"></path>
+                <path d="M 384,48 L 384,80" fill="none" stroke="black"></path>
+                <path d="M 432,80 L 432,152" fill="none" stroke="black"></path>
+                <path d="M 488,48 L 488,80" fill="none" stroke="black"></path>
+                <path d="M 504,160 L 504,192" fill="none" stroke="black"></path>
+                <path d="M 8,48 L 112,48" fill="none" stroke="black"></path>
+                <path d="M 216,48 L 304,48" fill="none" stroke="black"></path>
+                <path d="M 384,48 L 488,48" fill="none" stroke="black"></path>
+                <path d="M 112,64 L 208,64" fill="none" stroke="black"></path>
+                <path d="M 304,64 L 376,64" fill="none" stroke="black"></path>
+                <path d="M 8,80 L 112,80" fill="none" stroke="black"></path>
+                <path d="M 216,80 L 304,80" fill="none" stroke="black"></path>
+                <path d="M 384,80 L 488,80" fill="none" stroke="black"></path>
+                <path d="M 376,160 L 504,160" fill="none" stroke="black"></path>
+                <path d="M 376,192 L 504,192" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="440,152 428,146.4 428,157.6" fill="black" transform="rotate(90,432,152)"></polygon>
+                <polygon class="arrowhead" points="384,64 372,58.4 372,69.6" fill="black" transform="rotate(0,376,64)"></polygon>
+                <polygon class="arrowhead" points="216,64 204,58.4 204,69.6" fill="black" transform="rotate(0,208,64)"></polygon>
+                <g class="text">
+                  <text x="36" y="36">in</text>
+                  <text x="72" y="36">place</text>
+                  <text x="104" y="36">P</text>
+                  <text x="424" y="36">elsewhere</text>
+                  <text x="164" y="52">Evidence</text>
+                  <text x="332" y="52">AR</text>
+                  <text x="52" y="68">Attester</text>
+                  <text x="96" y="68">X</text>
+                  <text x="260" y="68">Verifier</text>
+                  <text x="428" y="68">Attester</text>
+                  <text x="472" y="68">Y</text>
+                  <text x="152" y="84">bound</text>
+                  <text x="188" y="84">to</text>
+                  <text x="336" y="84">for</text>
+                  <text x="360" y="84">P</text>
+                  <text x="160" y="100">session</text>
+                  <text x="200" y="100">S</text>
+                  <text x="476" y="100">presents</text>
+                  <text x="528" y="100">the</text>
+                  <text x="472" y="116">genuine</text>
+                  <text x="516" y="116">AR</text>
+                  <text x="540" y="116">in</text>
+                  <text x="456" y="132">its</text>
+                  <text x="504" y="132">session</text>
+                  <text x="548" y="132">S'</text>
+                  <text x="416" y="180">Relying</text>
+                  <text x="472" y="180">Party</text>
+                </g>
+              </svg><a href="#section-5.3-2.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-a-relayed-result-and-the-bi" class="selfRef">A relayed Result, and the binding that defeats it</a>
+          </figcaption></figure>
+</div>
+<p id="section-5.3-3">A Relying Party <span class="bcp14">SHOULD</span> therefore require that the Evidence behind the Result be bound to the session in which the Result is used, and a Verifier <span class="bcp14">SHOULD</span> carry that binding into the Result.
+The binding has to be to a value derived from the session's shared secret, such as the TLS exporter value of <span>[<a href="#RFC9266" class="cite xref">RFC9266</a>]</span>, placed in the freshness field of the Evidence (REPORT_DATA for AMD SEV-SNP, REPORTDATA for Intel TDX, the extraData of a TPM quote).
+Binding the Evidence to the Attester's public key, with or without a nonce, does not correlate it with the session: anyone else who holds the private key, because it leaked, was provisioned at runtime or was extracted on another machine, can present that Evidence in a session of their own, as the analysis of binding mechanisms 4 and 6 in <span>[<a href="#Intra-handshake.fail" class="cite xref">Intra-handshake.fail</a>]</span> shows.
+The public key <span class="bcp14">MAY</span> be included alongside the shared-secret-derived value; the binding then holds while either of the two is unknown to the attacker (<span>[<a href="#Intra-handshake.fail" class="cite xref">Intra-handshake.fail</a>]</span>, Section 7.2).
+A Result that is merely fresh is not bound.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="masked-platform-identities">
+<section id="section-5.4">
+        <h3 id="name-masked-platform-identities">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-masked-platform-identities" class="section-name selfRef">Masked Platform Identities</a>
+        </h3>
+<p id="section-5.4-1">Some platforms hide the hardware identity from the guest by policy.
+Under AMD SEV-SNP the host may set MaskChipId, in which case CHIP_ID is zero in every guest report, and may disable the per-chip key for a guest (VCEK_DIS), in which case the report is signed by a key that every machine the provider enrolled in one key domain shares <span>[<a href="#SNP-ABI" class="cite xref">SNP-ABI</a>]</span>.
+The two are independent choices of the host and neither is visible in the report except by its effect: a report can carry the per-chip signature with a zero CHIP_ID, and then only a party that learns the chip identity from the host side can obtain the certificate that verifies it, so the certificate is itself a statement by the operator.
+The two key domains also tell a Verifier different things: the shared key is issued by the manufacturer to an enrolled provider and wrapped to each chip (<span>[<a href="#SNP-ABI" class="cite xref">SNP-ABI</a>]</span>, Section 3.7), so a report under it shows which provider's fleet the chip was enrolled in without naming the chip, while the per-chip key names the chip without the provider.
+A zeroed or shared identity is an input to appraisal policy, not an error.
+It means that the Verifier's location conclusion cannot rest on the identity of the chip, and therefore rests on a statement by the provider or on another Verifier's Result; the provenance information in this document exists so that the Relying Party can see which.
+A Relying Party whose policy requires a per-machine identity <span class="bcp14">SHOULD</span> treat such a Result as resting on the provider.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="availability-threats">
+<section id="section-5.5">
+        <h3 id="name-availability-threats">
+<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-availability-threats" class="section-name selfRef">Availability Threats</a>
+        </h3>
+<p id="section-5.5-1">This artifact is the result of a calculation or audit that establishes a result.
+Once created, it can be valid for a period of time from seconds (GNSS result on a martphone) to months (human audit of a data center).<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+<p id="section-5.5-2">Distruptions to the mechanism of location calculation do not make the result of the previous calculation invalid.
+However, it is possible that such an attack could make subsequent calculations infeasible.  For instance, the GNSS signals can easily be jammed.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1649,9 +1746,17 @@ encoded results as Private Use values prior to publication of an RFC.<a href="#s
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"JSON Web Token (JWT)"</span>, <span>&lt;<a href="https://www.iana.org/assignments/jwt">https://www.iana.org/assignments/jwt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="ID-Crisis">[ID-Crisis]</dt>
+        <dd>
+<span class="refAuthor">Sardar, M. U.</span>, <span class="refAuthor">Moustafa, M.</span>, and <span class="refAuthor">T. Aura</span>, <span class="refTitle">"Identity Crisis in Confidential Computing: Formal Analysis of Attested TLS"</span>, <span class="seriesInfo">Proceedings of the ACM Asia Conference on Computer and Communications Security pp. 547-560</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://doi.org/10.1145/3779208.3785387">https://doi.org/10.1145/3779208.3785387</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="IDevID">[IDevID]</dt>
         <dd>
 <span class="refAuthor">IEEE Standard</span>, <span class="refTitle">"IEEE 802.1AR Secure Device Identifier"</span>, <time datetime="2018" class="refDate">2018</time>, <span>&lt;<a href="https://1.ieee802.org/security/802-1ar/l">https://1.ieee802.org/security/802-1ar/l</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="Intra-handshake.fail">[Intra-handshake.fail]</dt>
+        <dd>
+<span class="refAuthor">Sardar, M. U.</span>, <span class="refAuthor">Dubeyko, V.</span>, and <span class="refAuthor">J.-M. Jacquet</span>, <span class="refTitle">"Intra-handshake.fail (CVE-2026-33697): High-severity CVE in Attested TLS"</span>, <span class="seriesInfo">31st European Symposium on Research in Computer Security (ESORICS) LNCS, to appear</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://www.researchgate.net/publication/408219182_Intra-handshakefail_CVE-2026-33697_High-severity_CVE_in_Attested_TLS">https://www.researchgate.net/publication/408219182_Intra-handshakefail_CVE-2026-33697_High-severity_CVE_in_Attested_TLS</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="LLDP">[LLDP]</dt>
         <dd>
@@ -1665,6 +1770,10 @@ encoded results as Private Use values prior to publication of an RFC.<a href="#s
         <dd>
 <span class="refAuthor">Wikipedia</span>, <span class="refTitle">"Precision Time Protocol"</span>, <time datetime="2025-10-07" class="refDate">7 October 2025</time>, <span>&lt;<a href="https://en.wikipedia.org/wiki/Precision_Time_Protocol">https://en.wikipedia.org/wiki/Precision_Time_Protocol</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC9266">[RFC9266]</dt>
+        <dd>
+<span class="refAuthor">Whited, S.</span>, <span class="refTitle">"Channel Bindings for TLS 1.3"</span>, <span class="seriesInfo">RFC 9266</span>, <span class="seriesInfo">DOI 10.17487/RFC9266</span>, <time datetime="2022-07" class="refDate">July 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9266">https://www.rfc-editor.org/rfc/rfc9266</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC9360">[RFC9360]</dt>
         <dd>
 <span class="refAuthor">Schaad, J.</span>, <span class="refTitle">"CBOR Object Signing and Encryption (COSE): Header Parameters for Carrying and Referencing X.509 Certificates"</span>, <span class="seriesInfo">RFC 9360</span>, <span class="seriesInfo">DOI 10.17487/RFC9360</span>, <time datetime="2023-02" class="refDate">February 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9360">https://www.rfc-editor.org/rfc/rfc9360</a>&gt;</span>. </dd>
@@ -1672,6 +1781,10 @@ encoded results as Private Use values prior to publication of an RFC.<a href="#s
 <dt id="rollover">[rollover]</dt>
         <dd>
 <span class="refAuthor">Wikipedia</span>, <span class="refTitle">"Console Rollover Cable"</span>, <time datetime="2025-04-26" class="refDate">26 April 2025</time>, <span>&lt;<a href="https://en.wikipedia.org/wiki/Rollover_cable">https://en.wikipedia.org/wiki/Rollover_cable</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SNP-ABI">[SNP-ABI]</dt>
+        <dd>
+<span class="refAuthor">Advanced Micro Devices</span>, <span class="refTitle">"SEV Secure Nested Paging Firmware ABI Specification, Revision 1.58"</span>, <time datetime="2025-05" class="refDate">May 2025</time>, <span>&lt;<a href="https://www.amd.com/content/dam/amd/en/documents/developer/56860.pdf">https://www.amd.com/content/dam/amd/en/documents/developer/56860.pdf</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="speed">[speed]</dt>
       <dd>
