@@ -15,27 +15,27 @@ No matter which mechanism is appropriate for a given situation, the result of th
        This document is about encoding a variety of geographical conclusions conclusions in an Attestation Result.
 In addition, one mechanism of directly creating a geographic result in the form of an Endorsement is described in an appendix. 
     " name="description">
-<meta content="xml2rfc 3.34.0" name="generator">
+<meta content="xml2rfc 3.35.0" name="generator">
 <meta content="geofence" name="keyword">
 <meta content="workload" name="keyword">
 <meta content="soverign computing" name="keyword">
-<meta content="draft-richardson-rats-geographic-results-latest" name="ietf.draft">
+<meta content="draft-ietf-rats-geographic-results-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.34.0
-    Python 3.14.7
-    ConfigArgParse 1.7.5
+  xml2rfc 3.35.0
+    Python 3.14.10
+    ConfigArgParse 1.9.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.11.7
+    platformdirs 4.14.3
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.3
+    wcwidth 0.9.4
 -->
-<link href="draft-richardson-rats-geographic-results.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-ietf-rats-geographic-results.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">@font-face {
   font-family: 'Lora';
@@ -1034,7 +1034,7 @@ svg {
   & :is([stroke="white"], [stroke^="#fff"]) {
     stroke: var(--background-color);
   }
-  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+  & :is([fill="black"], [fill^="#000"], :not([fill], [fill] *)) {
     fill: var(--text-color);
   }
   & :is([fill="white"], [fill^="#fff"]) {
@@ -1049,11 +1049,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">geoAR</td>
-<td class="right">September 2026</td>
+<td class="right">November 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Richardson &amp; Nikolaichuk</td>
-<td class="center">Expires 8 March 2027</td>
+<td class="center">Expires 18 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,15 +1063,15 @@ svg {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">RATS (if adopted)</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-richardson-rats-geographic-results-latest</dd>
+<dd class="internet-draft">draft-ietf-rats-geographic-results-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-09-04" class="published">4 September 2026</time>
+<time datetime="2026-11-14" class="published">14 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-03-08">8 March 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-18">18 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1100,7 +1100,7 @@ In addition, one mechanism of directly creating a geographic result in the form 
       </h2>
 <p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <p id="section-note.1-2">
-        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-richardson-rats-geographic-results/">https://datatracker.ietf.org/doc/draft-richardson-rats-geographic-results/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+        Status information for this document may be found at <span><a href="https://datatracker.ietf.org/doc/draft-ietf-rats-geographic-results/">https://datatracker.ietf.org/doc/draft-ietf-rats-geographic-results/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
 <p id="section-note.1-3">
         Discussion of this document takes place on the
         RATS Working Group mailing list (<span><a href="mailto:rats@ietf.org">mailto:rats@ietf.org</a></span>),
@@ -1128,7 +1128,7 @@ In addition, one mechanism of directly creating a geographic result in the form 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 18 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1258,42 +1258,41 @@ In addition, one mechanism of directly creating a geographic result in the form 
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">Resolving the question of where certain computations are done can be critical to assessing how much trust to put into the result.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">MORE USE CASES HERE.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3"><span>[<a href="#I-D.ietf-rats-ear" class="cite xref">I-D.ietf-rats-ear</a>]</span> provides a framework that allows an <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> Verifier to return a conclusion as to geographic region for an Target Environment.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">While <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>], <a href="https://rfc-editor.org/rfc/rfc9711#section-4.2.10" class="relref">Section 4.2.10</a></span> provides a very good WGS84 based location claim, often very suitable as Evidence, it is not ideal for the use by Relying Parties.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">There are a few reasons:<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-2"><span>[<a href="#I-D.ietf-rats-ear" class="cite xref">I-D.ietf-rats-ear</a>]</span> provides a framework that allows an <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> Verifier to return a conclusion as to geographic region for an Target Environment.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">While <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>], <a href="https://rfc-editor.org/rfc/rfc9711#section-4.2.10" class="relref">Section 4.2.10</a></span> provides a very good WGS84 based location claim, often very suitable as Evidence, it is not ideal for the use by Relying Parties.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">There are a few reasons:<a href="#section-1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1-6.1">
-          <p id="section-1-6.1.1">the latitude and longitude describe a location on the Earth. The Relying Party is seldom interested in that level of detail.  It needs to know if it's in an acceptable place.<a href="#section-1-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-1-5.1">
+          <p id="section-1-5.1.1">the latitude and longitude describe a location on the Earth. The Relying Party is seldom interested in that level of detail.  It needs to know if it's in an acceptable place.<a href="#section-1-5.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-6.2">
-          <p id="section-1-6.2.1">the geographic position can leak significant amount of private information that is not necessary for the Relying Party to know.   Information not collected/stored can not be inadvertently disclosed.<a href="#section-1-6.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-1-5.2">
+          <p id="section-1-5.2.1">the geographic position can leak significant amount of private information that is not necessary for the Relying Party to know.   Information not collected/stored can not be inadvertently disclosed.<a href="#section-1-5.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-6.3">
-          <p id="section-1-6.3.1">for many activities, it is the Legal Jurisdiction that matters, not the actual location.
+        <li class="normal" id="section-1-5.3">
+          <p id="section-1-5.3.1">for many activities, it is the Legal Jurisdiction that matters, not the actual location.
 Jurisdictions often do not have well defined concentric boundaries.
 For instance, the South Korean Consultate in Los Angelos is usually for Legal purposes, in Korea.
-Yet, only a few meters away, possibly below the level of WGS84 accuracy, the jurisdiction would be different.<a href="#section-1-6.3.1" class="pilcrow">¶</a></p>
+Yet, only a few meters away, possibly below the level of WGS84 accuracy, the jurisdiction would be different.<a href="#section-1-5.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-1-7">This document offers a new set of structured abstract claims that provides an evaluated view of where a Target Environment is.
-The mechanism to do this appraisal may depend upon a number of factors which may be related to physical geographic position, but also include other considerations.<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">There are many different ways in which a Verifier might generate this result from Evidence and/or Endorsements that are provided to it.
+<p id="section-1-6">This document offers a new set of structured abstract claims that provides an evaluated view of where a Target Environment is.
+The mechanism to do this appraisal may depend upon a number of factors which may be related to physical geographic position, but also include other considerations.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">There are many different ways in which a Verifier might generate this result from Evidence and/or Endorsements that are provided to it.
 The exact method can be important for a small number of uses, but more often, if the Verify is trusted, then the details are not important.
 The exact method may be of interest only during forensic audits.
-This document does <em>not</em> standardize any mechanism for a Verify to appraise location data.<a href="#section-1-8" class="pilcrow">¶</a></p>
-<p id="section-1-9">The most obvious way is through various Global Navitation Satellite Systems (GNSS): the United States Global Positioning System (GPS), Russia's Global Navigation Satellite System (GLONASS), China's BeiDou Navigation Satellite System (BDS) and the European Union's Galileo.
+This document does <em>not</em> standardize any mechanism for a Verify to appraise location data.<a href="#section-1-7" class="pilcrow">¶</a></p>
+<p id="section-1-8">The most obvious way is through various Global Navitation Satellite Systems (GNSS): the United States Global Positioning System (GPS), Russia's Global Navigation Satellite System (GLONASS), China's BeiDou Navigation Satellite System (BDS) and the European Union's Galileo.
 These signals can be spoofed, manipulated and suppressed, however that does not render these signals useless, just that the level of trust must be carefully evaluated.
-There are also many environments, such as inside a (Faraday) cage in a Data Center, where GNSS signals do not reach.<a href="#section-1-9" class="pilcrow">¶</a></p>
-<p id="section-1-10">There are also other radio methods, such as time of travel calculations from a mobile (LTE) tower.<a href="#section-1-10" class="pilcrow">¶</a></p>
-<p id="section-1-11"><span>[<a href="#I-D.lkspa-rats-verifiable-geo-fence" class="cite xref">I-D.lkspa-rats-verifiable-geo-fence</a>]</span> provides a more general architecture for such evaluations.<a href="#section-1-11" class="pilcrow">¶</a></p>
-<p id="section-1-12">As an example of another method, described in <span>[<a href="#I-D.ramki-ptp-hardware-rooted-attestation" class="cite xref">I-D.ramki-ptp-hardware-rooted-attestation</a>]</span>,  there could be Evidence that a Target Environment is less than 1ns (as light travels in a fiber optic cable) away from another Target Enviroment whose location is known.
-Given a typical fiber optic cable has a speed of 200,000 kilometers per second (slower than light in a vacuum due to the index of refraction of the glass involved), so if the round trip time between environments is 1ns, then the distance between Target Environments can be appraised to be within 1m of each other.<a href="#section-1-12" class="pilcrow">¶</a></p>
-<p id="section-1-13">Whether or not any of these methods are a good enough measure of location is not the subject of this document.
-Rather, if a Verifier believes that information trustworthy for the purpose intended, then it may use the format described here to document it's conclusion.<a href="#section-1-13" class="pilcrow">¶</a></p>
-<p id="section-1-14">In addition to detailing the Attestation Result (EAR) format for the results, this document also addresses the case of an Endorsement created as to a device's location.
+There are also many environments, such as inside a (Faraday) cage in a Data Center, where GNSS signals do not reach.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<p id="section-1-9">There are also other radio methods, such as time of travel calculations from a mobile (LTE) tower.<a href="#section-1-9" class="pilcrow">¶</a></p>
+<p id="section-1-10"><span>[<a href="#I-D.lkspa-rats-verifiable-geo-fence" class="cite xref">I-D.lkspa-rats-verifiable-geo-fence</a>]</span> provides a more general architecture for such evaluations.<a href="#section-1-10" class="pilcrow">¶</a></p>
+<p id="section-1-11">As an example of another method, described in <span>[<a href="#I-D.ramki-ptp-hardware-rooted-attestation" class="cite xref">I-D.ramki-ptp-hardware-rooted-attestation</a>]</span>,  there could be Evidence that a Target Environment is less than 1ns (as light travels in a fiber optic cable) away from another Target Enviroment whose location is known.
+Given a typical fiber optic cable has a speed of 200,000 kilometers per second (slower than light in a vacuum due to the index of refraction of the glass involved), so if the round trip time between environments is 1ns, then the distance between Target Environments can be appraised to be within 1m of each other.<a href="#section-1-11" class="pilcrow">¶</a></p>
+<p id="section-1-12">Whether or not any of these methods are a good enough measure of location is not the subject of this document.
+Rather, if a Verifier believes that information trustworthy for the purpose intended, then it may use the format described here to document it's conclusion.<a href="#section-1-12" class="pilcrow">¶</a></p>
+<p id="section-1-13">In addition to detailing the Attestation Result (EAR) format for the results, this document also addresses the case of an Endorsement created as to a device's location.
 <a href="#presence" class="auto internal xref">Appendix A</a> details a processs by which this Endorsement could be generated by a human auditor equipped with a smartphone, tablet, or dedicated auditing device.
-<a href="#presence" class="auto internal xref">Appendix A</a> is not a normative part of the Attestation Result defined below, but it is considered a normative process defined by this document.<a href="#section-1-14" class="pilcrow">¶</a></p>
+<a href="#presence" class="auto internal xref">Appendix A</a> is not a normative part of the Attestation Result defined below, but it is considered a normative process defined by this document.<a href="#section-1-13" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1515,11 +1514,11 @@ However, it is possible that such an attack could make subsequent calculations i
 <dl class="references">
 <dt id="I-D.ietf-rats-ear">[I-D.ietf-rats-ear]</dt>
         <dd>
-<span class="refAuthor">Fossati, T.</span>, <span class="refAuthor">Voit, E.</span>, <span class="refAuthor">Trofimov, S.</span>, and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"EAT Attestation Results"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-ear-04</span>, <time datetime="2026-05-26" class="refDate">26 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-ear-04">https://datatracker.ietf.org/doc/html/draft-ietf-rats-ear-04</a>&gt;</span>. </dd>
+<span class="refAuthor">Fossati, T.</span>, <span class="refAuthor">Voit, E.</span>, <span class="refAuthor">Trofimov, S.</span>, and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"EAT Attestation Results"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-ear-05</span>, <time datetime="2026-11-02" class="refDate">2 November 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-ear-05">https://datatracker.ietf.org/doc/html/draft-ietf-rats-ear-05</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-rats-endorsements">[I-D.ietf-rats-endorsements]</dt>
         <dd>
-<span class="refAuthor">Thaler, D.</span>, <span class="refAuthor">Birkholz, H.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"RATS Endorsements"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-endorsements-09</span>, <time datetime="2026-03-02" class="refDate">2 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-endorsements-09">https://datatracker.ietf.org/doc/html/draft-ietf-rats-endorsements-09</a>&gt;</span>. </dd>
+<span class="refAuthor">Thaler, D.</span>, <span class="refAuthor">Birkholz, H.</span>, and <span class="refAuthor">T. Fossati</span>, <span class="refTitle">"Remote Attestation Procedures (RATS) Endorsements"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-endorsements-13</span>, <time datetime="2026-10-14" class="refDate">14 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-endorsements-13">https://datatracker.ietf.org/doc/html/draft-ietf-rats-endorsements-13</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -1552,11 +1551,11 @@ However, it is possible that such an attack could make subsequent calculations i
 <dl class="references">
 <dt id="I-D.lkspa-rats-verifiable-geo-fence">[I-D.lkspa-rats-verifiable-geo-fence]</dt>
         <dd>
-<span class="refAuthor">Krishnan, R.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Lopez, D.</span>, <span class="refAuthor">Prasad, A.</span>, <span class="refAuthor">Addepalli, S.</span>, and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"Verifiable Proof of Environment Attestation Profile"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-lkspa-rats-verifiable-geo-fence-03</span>, <time datetime="2026-06-13" class="refDate">13 June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-lkspa-rats-verifiable-geo-fence-03">https://datatracker.ietf.org/doc/html/draft-lkspa-rats-verifiable-geo-fence-03</a>&gt;</span>. </dd>
+<span class="refAuthor">Krishnan, R.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Lopez, D.</span>, <span class="refAuthor">Prasad, A.</span>, <span class="refAuthor">Addepalli, S.</span>, and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"Verifiable Proof of Environment Attestation Profile"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-lkspa-rats-verifiable-geo-fence-04</span>, <time datetime="2026-10-31" class="refDate">31 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-lkspa-rats-verifiable-geo-fence-04">https://datatracker.ietf.org/doc/html/draft-lkspa-rats-verifiable-geo-fence-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ramki-ptp-hardware-rooted-attestation">[I-D.ramki-ptp-hardware-rooted-attestation]</dt>
         <dd>
-<span class="refAuthor">Krishnan, R.</span>, <span class="refAuthor">Richardson, M.</span>, <span class="refAuthor">Lopez, D.</span>, <span class="refAuthor">Prasad, A.</span>, and <span class="refAuthor">S. Addepalli</span>, <span class="refTitle">"Hardware-Rooted Attestation for Precision Time Protocol: Scalable Workload Identity and Phased PQC Readiness"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ramki-ptp-hardware-rooted-attestation-01</span>, <time datetime="2026-03-01" class="refDate">1 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ramki-ptp-hardware-rooted-attestation-01">https://datatracker.ietf.org/doc/html/draft-ramki-ptp-hardware-rooted-attestation-01</a>&gt;</span>. </dd>
+<span class="refAuthor">Krishnan, R.</span>, <span class="refAuthor">Richardson, M.</span>, <span class="refAuthor">Lopez, D.</span>, <span class="refAuthor">Prasad, A.</span>, and <span class="refAuthor">S. Addepalli</span>, <span class="refTitle">"Hardware-Rooted Attestation for Precision Time Protocol: Scalable Workload Identity and Phased PQC Readiness"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ramki-ptp-hardware-rooted-attestation-02</span>, <time datetime="2026-10-18" class="refDate">18 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ramki-ptp-hardware-rooted-attestation-02">https://datatracker.ietf.org/doc/html/draft-ramki-ptp-hardware-rooted-attestation-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA.cwt">[IANA.cwt]</dt>
         <dd>
