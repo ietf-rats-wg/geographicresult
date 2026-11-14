@@ -236,7 +236,10 @@ $$ear-appraisal-extension //= (
 geographic-result-claims = non-empty<{
   ? grc.claim-uuid-label => grc.claim-uuid
   ? grc.basis-label => grc.basis-class
+  ? grc.basis-ref-label => corim.uuid-type
   ? grc.provence   => grc.provence-values
+  ? grc.observed-from-label => time
+  ? grc.observed-until-label => time
   ? grc.jurisdiction-country-label => iso-3166-alpha-2-country-code
   ? grc.jurisdiction-country-exclave-label => bool
   ? grc.jurisdiction-subdivision-label => tstr .size (2..16)
@@ -272,19 +275,23 @@ grc.cabinet-number = eat.JC<"grc.cabinet-number", 9>
 grc.hallway-number = eat.JC<"grc.hallway-number", 10>
 grc.room-number = eat.JC<"grc.room-number", 12>
 grc.floor-number = eat.JC<"grc.floor-number", 11>
-grc.claim-uuid = eat.JC("corim.uuid-type", 12>
-grc.provence   = eat.JC("grc.provence-values", 13>
+grc.provence   = eat.JC("grc.provence-values", 12>
 
 ; the class of artifact a geographic result
 ;     rests on (RFC 9334, Section 4.2)
 grc.claim-uuid-label = eat.JC<"grc.claim-uuid", 14>
-grc.basis-label = eat.JC<"grc.basis", 15>
+grc.claim-uuid = corim.uuid-type
 
+grc.basis-label = eat.JC<"grc.basis", 15>
 grc.basis-class = &(
   evidence: 0,
   endorsement: 1,
   attestation-result: 2,
 )
+
+grc.basis-ref-label = eat.JC<"grc.basis-ref", 16>
+grc.observed-from-label = eat.JC<"grc.observed-from", 17>
+grc.observed-until-label = eat.JC<"grc.observed-until", 18>
 
 grc.zone-membership-label = eat.JC<"grc.zone-membership", 19>
 grc.zone-membership = [
@@ -313,6 +320,15 @@ When a geographic result is intended to be consumed as an Endorsement by another
 The consuming Verifier's own result then names the class of what it consumed (`endorsement`), and the original class remains reachable one hop away through the uuid.
 A Relying Party that does not need the distinction stops at the first class it sees; an auditor follows the uuid.
 Nothing about the method travels on the wire unless it is asked for.
+
+The `basis-ref` field carries the `claim-uuid` of the geographic result this one rests on.
+When `basis` is `attestation-result` and the result consumed carried a `claim-uuid`, the consuming Verifier MUST include `basis-ref`; without it the class is a dead end for an auditor, who can see that the result rests on another Verifier's conclusion but cannot reach it.
+A Relying Party whose appraisal policy accepts only results that bottom out in Evidence or an Endorsement follows `basis-ref` hop by hop; one whose policy trusts the signing Verifier stops at the first result.
+`basis-ref` differs from `near-to`: `near-to` says the result is spatially close to another result, `basis-ref` says the result was derived from it.
+
+The `observed-from` and `observed-until` fields carry the interval over which the observations behind the result were made.
+A conclusion drawn from Evidence collected over time, such as a trajectory of quantised positions, is a statement about a period rather than an instant, and the EAR's issue time does not convey that period.
+A Verifier deriving a geographic result from longitudinal Evidence SHOULD include both fields; a Verifier consuming such a result and deriving its own from it SHOULD carry them forward unchanged.
 
 Two results carrying identical jurisdiction claims may rest on different classes.
 {{examples}} shows two such results produced by the same Verifier from public cloud attestation artifacts.
@@ -449,7 +465,6 @@ The signature says who produced the result; it says nothing about what the resul
 Without `basis`, a Relying Party cannot separate "this Verifier is trusted" from "this Verifier had something to work with", and those are different questions with different consequences when a regulator asks the second one.
 The `basis` class discloses no more than which of the three artifact classes was involved: it names neither a receiver, nor an endorser, nor a method, and therefore leaks less than the region string already present in the certificate chains of some attestation formats.
 
-
 ## Availability Threats
 
 This artifact is the result of a calculation or audit that establishes a result.
@@ -494,8 +509,8 @@ The Verifier accepted it as an Endorsement and records that class.
 ~~~~
 {
   / grc.jurisdiction-country / 0: "NL",
-  / grc.claim-uuid /          13: h'814f1a077ed25b798641788ef6dab3a1',
-  / grc.basis /               14: 1  / endorsement /
+  / grc.claim-uuid /          14: h'814f1a077ed25b798641788ef6dab3a1',
+  / grc.basis /               15: 1  / endorsement /
 }
 ~~~~
 
@@ -516,8 +531,8 @@ Because a zone is more specific than a region-scoped hostname, this result also 
 {
   / grc.jurisdiction-country / 0: "NL",
   / grc.jurisdiction-city /    4: "Eemshaven",
-  / grc.claim-uuid /          13: h'5e1a26c009cb5e8489c4f9efa68f78ad',
-  / grc.basis /               14: 2  / attestation-result /
+  / grc.claim-uuid /          14: h'5e1a26c009cb5e8489c4f9efa68f78ad',
+  / grc.basis /               15: 2  / attestation-result /
 }
 ~~~~
 
@@ -526,8 +541,6 @@ Encoded (36 bytes):
 ~~~~
 a400624e4c046945656d73686176656e0d505e1a26c009cb5e8489c4f9efa68f78ad0e02
 ~~~~
-
-{{fig-wire}} annotates both encodings byte by byte.
 
 ~~~~
 Microsoft Azure, West Europe: basis endorsement, 25 bytes
@@ -559,6 +572,58 @@ Both maps validate against the CDDL in this document; a map carrying `basis` 3, 
 The Verifier used is a minimal implementation of this document written by one of the authors.
 Across the 26 artifacts of the capture (twelve AWS Nitro documents, ten SEV-SNP reports, four Azure tokens) every signature verified against its public root.
 The Verifier emitted a geographic result for the 19 artifacts that carried any locational input and none for the seven SEV-SNP reports that carried none at all; all 19 results validate.
+
+## A result resting on another result (basis: attestation-result, with basis-ref and an observation window)
+
+A Verifier consumed a geographic result that another Verifier had derived from a device-signed trajectory (sixty-four H3 cells collected fifteen minutes apart; the set was supplied by the author of draft-ayerbe-trip-protocol and is labelled synthetic), and emitted its own:
+
+~~~~
+{
+  / grc.jurisdiction-country / 0: "NL",
+  / grc.claim-uuid /          13: h'2bfa42bce6e45c2ab556b6a0862d11f7',
+  / grc.basis /               14: 2  / attestation-result /,
+  / grc.basis-ref /           16: h'9c413213e4ad5396b1413d7e1c37c4f6',
+  / grc.observed-from /       17: 1(1767226500),
+  / grc.observed-until /      18: 1(1767283200)
+}
+~~~~
+
+Encoded (57 bytes):
+
+~~~~
+a600624e4c0d502bfa42bce6e45c2ab556b6a0862d11f70e0210509c413213
+e4ad5396b1413d7e1c37c4f611c11a6955bc8412c11a69569a00
+~~~~
+
+{{fig-chain}} shows the two Verifiers and what each result carries.
+
+~~~~ aasvg
+.----------.  Evidence     .------------.
+| Attester +-------------->| Verifier A |
+'----------'  64 signed    '-----+------'
+              H3 cells           | AR U1:
+                                 |  jurisdiction-country "NL"
+                                 |  basis 0, evidence
+                                 |  claim-uuid U1
+                                 v
+                           .------------.
+                           | Verifier B |
+                           '-----+------'
+                                 | AR U2:
+                                 |  jurisdiction-country "NL"
+                                 |  basis 2, attestation-result
+                                 |  basis-ref U1
+                                 |  observed-from, observed-until
+                                 v
+                          .---------------.
+                          | Relying Party |
+                          '---------------'
+~~~~
+{: #fig-chain title="A result that rests on another result"}
+
+`basis-ref` is the `claim-uuid` of the first Verifier's result, which carried `basis` 0 (evidence) and the same jurisdiction; `observed-from` and `observed-until` are the first and last collection times of the trajectory, carried forward unchanged.
+A Relying Party whose policy accepts only results that bottom out in Evidence or an Endorsement follows `basis-ref` and accepts; the same result without `basis-ref` is rejected by that policy and accepted by a policy that trusts the signing Verifier.
+The Verifier chain that produced these bytes, with the signed EARs in diagnostic notation, is published separately by one of the authors.
 
 
 # Proof of Placement {#presence}
