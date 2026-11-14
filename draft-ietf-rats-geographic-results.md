@@ -275,19 +275,21 @@ grc.cabinet-number = eat.JC<"grc.cabinet-number", 9>
 grc.hallway-number = eat.JC<"grc.hallway-number", 10>
 grc.room-number = eat.JC<"grc.room-number", 12>
 grc.floor-number = eat.JC<"grc.floor-number", 11>
-grc.provence   = eat.JC("grc.provence-values", 12>
 
-; the class of artifact a geographic result
-;     rests on (RFC 9334, Section 4.2)
-grc.claim-uuid-label = eat.JC<"grc.claim-uuid", 14>
+grc.claim-uuid-label = eat.JC<"grc.claim-uuid", 13>
 grc.claim-uuid = corim.uuid-type
 
-grc.basis-label = eat.JC<"grc.basis", 15>
+grc.basis-label = eat.JC<"grc.basis", 14>
+; the class of artifact a geographic result
+;     rests on (RFC 9334, Section 4.2)
 grc.basis-class = &(
   evidence: 0,
   endorsement: 1,
   attestation-result: 2,
 )
+
+grc.provence = eat.JC<"grc.provence", 15>
+grc.provence-values = tstr / uint
 
 grc.basis-ref-label = eat.JC<"grc.basis-ref", 16>
 grc.observed-from-label = eat.JC<"grc.observed-from", 17>
@@ -509,8 +511,8 @@ The Verifier accepted it as an Endorsement and records that class.
 ~~~~
 {
   / grc.jurisdiction-country / 0: "NL",
-  / grc.claim-uuid /          14: h'814f1a077ed25b798641788ef6dab3a1',
-  / grc.basis /               15: 1  / endorsement /
+  / grc.claim-uuid /          13: h'814f1a077ed25b798641788ef6dab3a1',
+  / grc.basis /               14: 1  / endorsement /
 }
 ~~~~
 
@@ -531,8 +533,8 @@ Because a zone is more specific than a region-scoped hostname, this result also 
 {
   / grc.jurisdiction-country / 0: "NL",
   / grc.jurisdiction-city /    4: "Eemshaven",
-  / grc.claim-uuid /          14: h'5e1a26c009cb5e8489c4f9efa68f78ad',
-  / grc.basis /               15: 2  / attestation-result /
+  / grc.claim-uuid /          13: h'5e1a26c009cb5e8489c4f9efa68f78ad',
+  / grc.basis /               14: 2  / attestation-result /
 }
 ~~~~
 
