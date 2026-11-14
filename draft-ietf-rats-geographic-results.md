@@ -13,7 +13,7 @@ workgroup: RATS (if adopted)
 keyword:
  - geofence
  - workload
- - soverign computing
+ - sovereign computing
 venue:
   group: RATS
   type: Working Group
@@ -72,7 +72,7 @@ informative:
     - org: Advanced Micro Devices
     date: 2025-05
   IDevID:
-    target: https://1.ieee802.org/security/802-1ar/l
+    target: https://1.ieee802.org/security/802-1ar/
     title: IEEE 802.1AR Secure Device Identifier
     author:
     - org: IEEE Standard
@@ -108,7 +108,7 @@ informative:
     title: "ISO Online Browsing Platform"
     date: 2026-03-01
     author:
-       org: "International Standards Organization"
+       org: "International Organization for Standardization"
 
 --- abstract
 
@@ -116,9 +116,9 @@ Many workloads have limitations on what geography they are allowed to operate in
 This is often due to a regulation that requires that the computation occur in a particular jurisdiction.
 
 There are many mechanisms by which Evidence of location may be created and then evaluated by a Verifier.
-No matter which mechanism is appropriate for a given situation, the result of the Verification can be expressed in a similiarly defined EAT Attestation Result.
+No matter which mechanism is appropriate for a given situation, the result of the Verification can be expressed in a similarly defined EAT Attestation Result.
 
-This document is about encoding a variety of geographical conclusions conclusions in an Attestation Result.
+This document is about encoding a variety of geographical conclusions in an Attestation Result.
 In addition, one mechanism of directly creating a geographic result in the form of an Endorsement is described in an appendix.
 
 --- middle
@@ -129,7 +129,7 @@ Resolving the question of where certain computations are done can be critical to
 
 <!-- MORE USE CASES HERE. -->
 
-{{I-D.ietf-rats-ear}} provides a framework that allows an {{-Architecture}} Verifier to return a conclusion as to geographic region for an Target Environment.
+{{I-D.ietf-rats-ear}} provides a framework that allows an {{-Architecture}} Verifier to return a conclusion as to geographic region for a Target Environment.
 
 {{fig-dataflow}} places the geographic result in the data flow of {{-Architecture}}: the Verifier appraises Evidence or Endorsements about location by a method outside this document and returns one format to the Relying Party.
 
@@ -162,18 +162,18 @@ There are a few reasons:
 
 * for many activities, it is the Legal Jurisdiction that matters, not the actual location.
 Jurisdictions often do not have well defined concentric boundaries.
-For instance, the South Korean Consultate in Los Angelos is usually for Legal purposes, in Korea.
+For instance, the South Korean Consulate in Los Angeles is usually for Legal purposes, in Korea.
 Yet, only a few meters away, possibly below the level of WGS84 accuracy, the jurisdiction would be different.
 
 This document offers a new set of structured abstract claims that provides an evaluated view of where a Target Environment is.
 The mechanism to do this appraisal may depend upon a number of factors which may be related to physical geographic position, but also include other considerations.
 
 There are many different ways in which a Verifier might generate this result from Evidence and/or Endorsements that are provided to it.
-The exact method can be important for a small number of uses, but more often, if the Verify is trusted, then the details are not important.
+The exact method can be important for a small number of uses, but more often, if the Verifier is trusted, then the details are not important.
 The exact method may be of interest only during forensic audits.
-This document does *not* standardize any mechanism for a Verify to appraise location data.
+This document does *not* standardize any mechanism for a Verifier to appraise location data.
 
-The most obvious way is through various Global Navitation Satellite Systems (GNSS): the United States Global Positioning System (GPS), Russia's Global Navigation Satellite System (GLONASS), China's BeiDou Navigation Satellite System (BDS) and the European Union's Galileo.
+The most obvious way is through various Global Navigation Satellite Systems (GNSS): the United States Global Positioning System (GPS), Russia's Global Navigation Satellite System (GLONASS), China's BeiDou Navigation Satellite System (BDS) and the European Union's Galileo.
 These signals can be spoofed, manipulated and suppressed, however that does not render these signals useless, just that the level of trust must be carefully evaluated.
 There are also many environments, such as inside a (Faraday) cage in a Data Center, where GNSS signals do not reach.
 
@@ -181,14 +181,14 @@ There are also other radio methods, such as time of travel calculations from a m
 
 {{?I-D.lkspa-rats-verifiable-geo-fence}} provides a more general architecture for such evaluations.
 
-As an example of another method, described in {{?I-D.ramki-ptp-hardware-rooted-attestation}},  there could be Evidence that a Target Environment is less than 1ns (as light travels in a fiber optic cable) away from another Target Enviroment whose location is known.
+As an example of another method, described in {{?I-D.ramki-ptp-hardware-rooted-attestation}},  there could be Evidence that a Target Environment is less than 1ns (as light travels in a fiber optic cable) away from another Target Environment whose location is known.
 Given a typical fiber optic cable has a speed of 200,000 kilometers per second (slower than light in a vacuum due to the index of refraction of the glass involved), so if the round trip time between environments is 1ns, then the distance between Target Environments can be appraised to be within 1m of each other.
 
 Whether or not any of these methods are a good enough measure of location is not the subject of this document.
-Rather, if a Verifier believes that information trustworthy for the purpose intended, then it may use the format described here to document it's conclusion.
+Rather, if a Verifier believes that information trustworthy for the purpose intended, then it may use the format described here to document its conclusion.
 
 In addition to detailing the Attestation Result (EAR) format for the results, this document also addresses the case of an Endorsement created as to a device's location.
-{{presence}} details a processs by which this Endorsement could be generated by a human auditor equipped with a smartphone, tablet, or dedicated auditing device.
+{{presence}} details a process by which this Endorsement could be generated by a human auditor equipped with a smartphone, tablet, or dedicated auditing device.
 {{presence}} is not a normative part of the Attestation Result defined below, but it is considered a normative process defined by this document.
 
 # Conventions and Definitions
@@ -205,7 +205,7 @@ Geographic Results can contain one or more of the following claims.
 1. jurisdiction-country = ISO3166 country code.
 2. jurisdiction-country-exclave = boolean
 3. jurisdiction-subdivision   = ISO3166-2 subdivision code (country-specific)
-4. jurisdiction-subdivusion-exclave = boolean
+4. jurisdiction-subdivision-exclave = boolean
 5. jurisdiction-city    = subdivision-specific list (not standardized)
 6. jurisdiction-city-exclave = state-specific-list
 7. enclosing-exclave-country = ISO3166 country code
@@ -213,7 +213,7 @@ Geographic Results can contain one or more of the following claims.
 9. rack-U-number = ordinal, numbered from bottom RU as 1.
 10. cabinet-number = ordinal, DC specific ordering, might ignore hallway, room and floor
 11. hallway-number = ordinal
-12. room-numbr = string
+12. room-number = string
 13. floor-number = string, usually representing an integer.
 14. zone-membership = membership in an operator-defined zone.
 
@@ -221,7 +221,7 @@ There are some additional things which may be received as Evidence, but which is
 
 1. range-to-tower = designation of tower, distance-readings
 
-(NOTE: There are apparently exclaves that ar inside other countries exclaves, like Nahwa. It is unclear if exclave information is even relevant, or if second order matters at all)
+(NOTE: There are apparently exclaves that are inside other countries' exclaves, like Nahwa. It is unclear if exclave information is even relevant, or if second order matters at all)
 
 # CDDL Definition
 
@@ -333,8 +333,8 @@ A Verifier deriving a geographic result from longitudinal Evidence SHOULD includ
 Two results carrying identical jurisdiction claims may rest on different classes.
 {{examples}} shows two such results produced by the same Verifier from public cloud attestation artifacts.
 
-The explicitely geographic based jurisdiction fields are arranged in a hierarchy of values.
-The outer most values are REQUIRED when any inner value is also present.
+The explicitly geographic based jurisdiction fields are arranged in a hierarchy of values.
+The outermost values are REQUIRED when any inner value is also present.
 This includes the claims: country, subdivision, and city, or the equivalent exclave claims (country-exclave, subdivision-exclave, and city-exclave).
 
 Note that the ISO 3166 term for a part of a country is called a "subdivision".
@@ -342,8 +342,8 @@ This should be understood to mean "state" (e.g., in the USA, Australia), "provin
 There are no IANA maintained values for "subdivision", but the ISO 3166-2 has codes for many subdivisions, which can be seen in the ISO's Online Browsing Platform {{obp}}.
 
 In general, subdivision lists are maintained by countries.
-It is usually the case that city lists are maintained by subdivisions, and there are no lists of these in any hierarchial databases, such as the ISO might maintain for countries.
-It is therefore not unsual for there to be a Paris, Texas, USA, and a Paris, France, and a London, Ontario, Canada, as well as a London, England, UK.
+It is usually the case that city lists are maintained by subdivisions, and there are no lists of these in any hierarchical databases, such as the ISO might maintain for countries.
+It is therefore not unusual for there to be a Paris, Texas, USA, and a Paris, France, and a London, Ontario, Canada, as well as a London, England, UK.
 Equally, there are many cities called Springfield in different states of the USA.
 
 Exclaves can exist at all levels: one part of a city might be within another city, but both are in the same country and subdivision.
@@ -355,7 +355,7 @@ In general, only one of (country, country-exclave), (subdivision, subdivision-ex
 When the exclave versions are present, if the Relying Party needs to indicate where the exclave is located, it may use the enclosing-exclave-country label.
 
 The near-to-label is an arbitrary relative reference, and it refers to some other claim that the Relying Party is assumed to already know about.
-It is a uuid value, and SHOULD refer to another claim by its `claim-uuid`
+It is a uuid value, and SHOULD refer to another claim by its `claim-uuid`.
 The definition of "near" is up to the Verifier, but in general, it is expected that it is close enough that it is in the same jurisdiction as the other entity.
 
 The series of claims, Data-Center, Floor-Number, Room-Number, Hallway-Number, Cabinet-Number and Rack-U-Number form a partial hierarchy designed to identify where a piece of equipment is.
@@ -365,7 +365,7 @@ Not all data centers are numbered in the same way.
 For some, the Room-Number implies the Floor-Number.
 For others, the Hallway-Number implies both room and floor, and for still others, the Cabinet-Number is unique per building.
 
-Rack-U numbers refer to the system within a cabinet, with the bottom most position labelled as 1.  This accomodates cabinets of varying heights and capacities.
+Rack-U numbers refer to the system within a cabinet, with the bottommost position labelled as 1.  This accommodates cabinets of varying heights and capacities.
 
 Without `basis`, a Relying Party has no way to tell a hardware-rooted
 result from an operator-typed label, even though both may appear in the
@@ -400,8 +400,8 @@ The threat model for this artifact is governed by a typical "CIA" list: Confiden
 
 ## Confidentiality Threats
 
-This artifact contains abtracted information about a location.
-The location could include where a person operating the computation is, such as if this escribes the location of a person's smartphone, in which case the location, even bstracted would be PII.
+This artifact contains abstracted information about a location.
+The location could include where a person operating the computation is, such as if this describes the location of a person's smartphone, in which case the location, even abstracted would be PII.
 It is almost always preferable for this artifact to remain private, however the integrity of the artifact is not compromised if that is not the case.
 
 When precise coordinates should be withheld from the Verifier, the Attester
@@ -415,8 +415,8 @@ Verifiers SHOULD disclose only the geographic detail the Relying Party needs.
 
 ## Integrity Threats
 
-The most important threat is that claims could be corrupted or intentionally changed as hey are transfered from Verifier to Relying Party.
-EAR are signed objects, and the signature from the Verifier maintains the integrity of hat object.
+The most important threat is that claims could be corrupted or intentionally changed as they are transferred from Verifier to Relying Party.
+EAR are signed objects, and the signature from the Verifier maintains the integrity of that object.
 The claims present in this document will most often be combined with other claims in the same artifact.
 
 When an EAT format Endorsement is created by an auditor, the auditor signs the artifact.
@@ -468,9 +468,9 @@ The `basis` class discloses no more than which of the three artifact classes was
 ## Availability Threats
 
 This artifact is the result of a calculation or audit that establishes a result.
-Once created, it can be valid for a period of time from seconds (GNSS result on a martphone) to months (human audit of a data center).
+Once created, it can be valid for a period of time from seconds (GNSS result on a smartphone) to months (human audit of a data center).
 
-Distruptions to the mechanism of location calculation do not make the result of the previous calculation invalid.
+Disruptions to the mechanism of location calculation do not make the result of the previous calculation invalid.
 However, it is possible that such an attack could make subsequent calculations infeasible.  For instance, the GNSS signals can easily be jammed.
 
 # IANA Considerations
@@ -632,7 +632,7 @@ Some aspects of a device can not be intuited by the device itself.
 For instance, a router platform may have no way to know what color the case is, where in a cabinet it is located, or which electrical circuit it is connected to.
 This kind of information must be provided through an Endorsement: a statement from a third party.
 
-These statements may require human audiitors to inspect the device physically.
+These statements may require human auditors to inspect the device physically.
 But, which device is really in front of an auditor?  This document describes a mechanism by which an auditor can make physical contact with a device and collect information to identify the
 device in a cryptographically strong manner.
 
@@ -658,7 +658,7 @@ This results in an endorsement linked to the wrong device.
 
 ### Overview of mechanism
 
-The auditor is equiped with a portable device (e.g., a tablet computer) containing an endorsement  signing key.
+The auditor is equipped with a portable device (e.g., a tablet computer) containing an endorsement  signing key.
 This is the audit device.
 (This could be an actual key, or it could just be a secure/tamperproof container in which endorsements will be stored until a long-term/more-secure endorsement key can be employed)
 
@@ -668,7 +668,7 @@ That might include taking pictures of the device in-situ, scans of serial number
 
 The auditor then plugs a physical cable between their audit device and the device under audit.
 This cable is envisioned to be either a USB console "rollover" cable {{rollover}}.
-The audit device then initiates some commands over this cable that will result in a proof of the idnetity of connected device.
+The audit device then initiates some commands over this cable that will result in a proof of the identity of connected device.
 
 ## Terminology
 
@@ -694,17 +694,17 @@ This is usually a "login:" or "username:" prompt of some kind.
 The audit device then sends the word "endorsementaudit" with a carriage return.
 This represents a user login, and for some systems this can be set as a real login with limited permissions.
 It could run a special audit shell that only can perform system audits.
-On other systems, this might just an unpriviledged account with the normal prompts and commands.
+On other systems, this might just be an unprivileged account with the normal prompts and commands.
 
 The handshake is over when the word "endorsement" is seen.
 
 ### Proof of Presence
 
-(Proof of Presence, or POP, is not a great TLA, as it often refers to proof that a private key is used.  A better name is saught)
+(Proof of Presence, or POP, is not a great TLA, as it often refers to proof that a private key is used.  A better name is sought)
 
 All commands are prefixed with "rfcXXXX" (with a trailing space, where XXXX is the number of this document).
 A second word indicates the command.
-The allows the device under audit to collect all operations under a single command or command sub-system.
+This allows the device under audit to collect all operations under a single command or command sub-system.
 
 The audit device then sends the word/command "position-proof", followed by a 33 byte nonce, base64URL encoded into a 45 byte string.
 (33 bytes are recommended because being divisible by three, they encode evenly in base64, leaving  no trailing =)
@@ -713,7 +713,7 @@ The device under audit then responds with a CBOR format EAT object, encoded in b
 
 The EAT payload should be constructed as follows.
 Shown are a few attributes that would make sense to include.
-The above provide nonce becomes the eat_nonce.
+The above provided nonce becomes the eat_nonce.
 
 ~~~~
 {
@@ -747,8 +747,8 @@ The hash of the Attestation Key is provided in the unprotected headers.
 ~~~~
 
 x5t is from {{RFC9360}}.
-The hash algoritm SHOULD be SHA256, or newer.
-(Example to be updated.
+The hash algorithm SHOULD be SHA256, or newer.
+(Example to be updated.)
 
 ### Collection of Endorsement Claims
 
@@ -771,13 +771,13 @@ Some additional commands can be provided by the device under audit:
 : This command returns the public certificate for the device's Attestation Key in {{!RFC7468}} Certificate format.
 
 "port-flash":
-: This command takes an interface number/name (e.g., "GigabitEthernet 3/014"), and causes the LEDs adjacent to a particular port to flash in a distinct pattern.  This is to help identity which physical port is which.
+: This command takes an interface number/name (e.g., "GigabitEthernet 3/014"), and causes the LEDs adjacent to a particular port to flash in a distinct pattern.  This is to help identify which physical port is which.
 
 "port-down":
 : This command takes an interface number/name (as above), and causes the switch to mark the physical port as down, but not turn off the laser.  Traffic SHOULD be re-routed as if the fibre has failed.  This is a disruptive test!  The auditor may then physically unplug the fibre as part of an audit of the fibre paths.  This command might not perform the action immediately, but could signal to the network operations center that such a test is desired, and allow them to approve it.
 
 "port-up":
-: Indicates the end of an path-audit started by "port-down".
+: Indicates the end of a path-audit started by "port-down".
 
 "endorsements":
 : This command is followed by a base64URL encoded CBOR Sequence of Endorsements, wrapped in the same BEGIN COSE header and footer as before.  To guard against failure during, the device under audit SHOULD time out this command after 120s if no END COSE OBJECT framing is seen.
@@ -806,10 +806,10 @@ In that case, they would use the "endorsements" to load the resulting Endorsemen
 
 ## Alternatives to USB/serial cables
 
-There are a number of cases where a USB or serial console cable might be unavailable, or it's might be undesireable.
+There are a number of cases where a USB or serial console cable might be unavailable, or it might be undesirable.
 Many smaller IoT devices, home routers and consumer items do not have any kind of console available.
 The console access might require removal of the case, which might be impossible to do while the device is operational, or while the device is physically installed.
-Console access might provide access to a priviledged prompt; that access might either be unsafe to give to the auditor, or might require a password to access that should not be shared.
+Console access might provide access to a privileged prompt; that access might either be unsafe to give to the auditor, or might require a password to access that should not be shared.
 
 One alternative is to use Ethernet.
 Most routing platforms have many ethernet ports, and usually have at least one empty ethernet port.
@@ -823,17 +823,17 @@ It can do things like tell a connected device which port of client device is con
 While trustworthy devices will not forward LLDP frames, an untrustworthy device that has been programmed to participate in a subterfuge might well forward frames.
 It might be possible to construct a challenge/response system that has the auditor plug cables in some non-deterministic order in order to defeat the subterfuge.
 
-This process would probably need to augmented with some other forms of feedback; perhaps flashing of status LEDs on the device in a pattern.
+This process would probably need to be augmented with some other forms of feedback; perhaps flashing of status LEDs on the device in a pattern.
 
 Note: the console/USB cable could also be redirected to another host!
 
 ## Privacy Considerations
 
-The ability to walk up to a device and interogate it as to it's identity is potentially privacy violating if the device is associated with a person.
-This would include all kinds of small devices: phones, laptops, electric bicycles, automobiles,
+The ability to walk up to a device and interrogate it as to its identity is potentially privacy violating if the device is associated with a person.
+This would include all kinds of small devices: phones, laptops, electric bicycles, automobiles.
 
 One countermeasure is that the device needs to be put into an audit mode before it can be interrogated.
-This is reasonable for some devices and some audit processes, but for other processees, the need to do random audits may countermand this need.
+This is reasonable for some devices and some audit processes, but for other processes, the need to do random audits may countermand this need.
 For devices such as large routing platforms, they are often located in data centers with multiple layers of physical access control: locked buildings, locked machine rooms, and locked cabinets.
 For such devices, there are perhaps few privacy concerns, and the auditor needs credentials in order to access the device at all.
 
@@ -841,16 +841,16 @@ For such devices, there are perhaps few privacy concerns, and the auditor needs 
 
 There are three concerns with this protocol.
 
-The first is the potential for unauthorized people to collect information about devices to which they have no authority to interogate.
+The first is the potential for unauthorized people to collect information about devices to which they have no authority to interrogate.
 In industrial settings, this is mitigated by physical access controls.
 In those settings the ability to identify devices which may be physically misbehaving or are damaged and connect them to their digital identity significantly outweighs any concerns about device identity.
 
-In consumer and retail settings, the device SHOULD not respond to this protocol unless an operator/owner has put the device into device identication mode.
+In consumer and retail settings, the device SHOULD not respond to this protocol unless an operator/owner has put the device into device identification mode.
 
 The second concern with this protocol is that it might be spoofed or confuzzled.
-The auditor could be mislead as whether the device in front of them is really the device that is responding to their queries.
+The auditor could be misled as to whether the device in front of them is really the device that is responding to their queries.
 The auditor SHOULD have the device identity with them already as part of the work order.
-They should therefore not be mislead as to which device they intend to audit,  the issue is that it might not be the device that is physically in front of them.
+They should therefore not be misled as to which device they intend to audit,  the issue is that it might not be the device that is physically in front of them.
 The device might be a mock-up designed to look right, but really it is wired secretly to the real device which is elsewhere, and is differently configured.
 This attack is called the "Sock-Puppet" attack.
 
@@ -862,7 +862,7 @@ The third concern with this protocol is that it might open up the device to atta
 The Initial Handshake {{loginhandshake}} mechanism is designed so that it can be easily implemented by typical router and operating system login mechanisms.
 A very limited account would be created, or even a mode within the login mechanism itself, and so no additional inquiries would be possible.
 Some operators prefer to never have a login process on the console/craft ports of their devices.
-This is usually done so that maintenance people do not need to have passwords that can then be  re-used over a network, weaking the security of the device.
+This is usually done so that maintenance people do not need to have passwords that can then be  re-used over a network, weakening the security of the device.
 They depend upon physical security for the console ports to provide security.
 Such operators might wish to rethink this policy for devices which will be subject to audit.
 
