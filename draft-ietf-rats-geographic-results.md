@@ -131,6 +131,27 @@ Resolving the question of where certain computations are done can be critical to
 
 {{I-D.ietf-rats-ear}} provides a framework that allows an {{-Architecture}} Verifier to return a conclusion as to geographic region for an Target Environment.
 
+{{fig-dataflow}} places the geographic result in the data flow of {{-Architecture}}: the Verifier appraises Evidence or Endorsements about location by a method outside this document and returns one format to the Relying Party.
+
+~~~~ aasvg
+                   Endorsement about location        Appraisal Policy
+.----------.       (an auditor, Appendix A)          for Attestation
+| Endorser +--------------------------.              Results
+'----------'                          |                     |
+                                      v                     v
+.----------.  Evidence of     .---------------.     .---------------.
+| Attester +----------------->|   Verifier    |     | Relying Party |
+'----------'  location:       | appraises by  |  AR | reads one     |
+              GNSS, PTP,      | a method this +---->| format,       |
+              TRIP, V-PEA     | document does |     | whatever the  |
+                              | not define    |     | method        |
+                              '---------------'     '---------------'
+
+AR = Attestation Result carrying geographic-result-claims:
+     the jurisdiction claims, claim-uuid and basis
+~~~~
+{: #fig-dataflow title="Geographic Attestation Result in the RATS data flow"}
+
 While {{RFC9711, Section 4.2.10}} provides a very good WGS84 based location claim, often very suitable as Evidence, it is not ideal for the use by Relying Parties.
 
 There are a few reasons:
@@ -213,7 +234,8 @@ $$ear-appraisal-extension //= (
 )
 
 geographic-result-claims = non-empty<{
-  ? grc.claim-uuid => grc.claim-uuid
+  ? grc.claim-uuid-label => grc.claim-uuid
+  ? grc.basis-label => grc.basis-class
   ? grc.provence   => grc.provence-values
   ? grc.jurisdiction-country-label => iso-3166-alpha-2-country-code
   ? grc.jurisdiction-country-exclave-label => bool
@@ -233,14 +255,17 @@ geographic-result-claims = non-empty<{
 
 ear.geographic-result-label = eat.JC<"TBD02", TBD01>
 
-grc.claim-uuid = corim.uuid-type
 grc.jurisdiction-country-label = eat.JC<"grc.jurisdiction-country", 0>
-grc.jurisdiction-country-exclave-label = eat.JC<"grc.jurisdiction-country-exclave", 1>
+grc.jurisdiction-country-exclave-label =
+        eat.JC<"grc.jurisdiction-country-exclave", 1>
 grc.jurisdiction-subdivision-label = eat.JC<"grc.jurisdiction-state", 2>
-grc.jurisdiction-subdivision-exclave-label = eat.JC<"grc.jurisdiction-subdivision-exclave", 3>
+grc.jurisdiction-subdivision-exclave-label =
+        eat.JC<"grc.jurisdiction-subdivision-exclave", 3>
 grc.jurisdiction-city-label = eat.JC<"grc.jurisdiction-city", 4>
-grc.jurisdiction-city-exclave-label = eat.JC<"grc.jurisdiction-city-exclave", 5>
-grc.enclosing-exclave-country-label = eat.JC<"grc.enclosing-exclave-country", 6>
+grc.jurisdiction-city-exclave-label =
+        eat.JC<"grc.jurisdiction-city-exclave", 5>
+grc.enclosing-exclave-country-label =
+        eat.JC<"grc.enclosing-exclave-country", 6>
 grc.near-to-label  = eat.JC<"grc.near-to", 7>
 grc.rack-U-number-label = eat.JC<"grc.rack-U-number", 8>
 grc.cabinet-number = eat.JC<"grc.cabinet-number", 9>
@@ -249,6 +274,17 @@ grc.room-number = eat.JC<"grc.room-number", 12>
 grc.floor-number = eat.JC<"grc.floor-number", 11>
 grc.claim-uuid = eat.JC("corim.uuid-type", 12>
 grc.provence   = eat.JC("grc.provence-values", 13>
+
+; the class of artifact a geographic result
+;     rests on (RFC 9334, Section 4.2)
+grc.claim-uuid-label = eat.JC<"grc.claim-uuid", 14>
+grc.basis-label = eat.JC<"grc.basis", 15>
+
+grc.basis-class = &(
+  evidence: 0,
+  endorsement: 1,
+  attestation-result: 2,
+)
 
 grc.zone-membership-label = eat.JC<"grc.zone-membership", 19>
 grc.zone-membership = [
@@ -267,6 +303,19 @@ But, at least some result MUST be provided.
 Which one will be needed is subject to the target usage and the needs of the Relying Party.
 
 The `claim-uuid` field allows this claim/endorsement to be labelled, which can be used in the `near-to-label` attribute of another claim.
+
+The `basis` field names the class of artifact the geographic result rests on, using the three artifact classes of {{RFC9334}}, Section 4.2: the result was computed from Evidence, it was accepted from an Endorsement, or it is an Attestation Result produced by another Verifier.
+It does not name the method.
+Which sensor, protocol or audit produced a location is a separate question, answered by a provenance value when a standardized method exists; the class can always be populated, a method only sometimes.
+A Verifier producing a geographic result SHOULD include `basis`.
+
+When a geographic result is intended to be consumed as an Endorsement by another Verifier, it MUST carry `claim-uuid`.
+The consuming Verifier's own result then names the class of what it consumed (`endorsement`), and the original class remains reachable one hop away through the uuid.
+A Relying Party that does not need the distinction stops at the first class it sees; an auditor follows the uuid.
+Nothing about the method travels on the wire unless it is asked for.
+
+Two results carrying identical jurisdiction claims may rest on different classes.
+{{examples}} shows two such results produced by the same Verifier from public cloud attestation artifacts.
 
 The explicitely geographic based jurisdiction fields are arranged in a hierarchy of values.
 The outer most values are REQUIRED when any inner value is also present.
@@ -302,7 +351,7 @@ For others, the Hallway-Number implies both room and floor, and for still others
 
 Rack-U numbers refer to the system within a cabinet, with the bottom most position labelled as 1.  This accomodates cabinets of varying heights and capacities.
 
-Without information as to basis or provenance, a Relying Party has no way to tell a hardware-rooted
+Without `basis`, a Relying Party has no way to tell a hardware-rooted
 result from an operator-typed label, even though both may appear in the
 same claims map above.
 
@@ -393,6 +442,14 @@ A zeroed or shared identity is an input to appraisal policy, not an error.
 It means that the Verifier's location conclusion cannot rest on the identity of the chip, and therefore rests on a statement by the provider or on another Verifier's Result; the provenance information in this document exists so that the Relying Party can see which.
 A Relying Party whose policy requires a per-machine identity SHOULD treat such a Result as resting on the provider.
 
+## Basis of a Result
+
+A signed Attestation Result whose location was taken from an unsigned operator label carries exactly the same integrity protection as one derived from Evidence.
+The signature says who produced the result; it says nothing about what the result rests on.
+Without `basis`, a Relying Party cannot separate "this Verifier is trusted" from "this Verifier had something to work with", and those are different questions with different consequences when a regulator asks the second one.
+The `basis` class discloses no more than which of the three artifact classes was involved: it names neither a receiver, nor an endorser, nor a method, and therefore leaks less than the region string already present in the certificate chains of some attestation formats.
+
+
 ## Availability Threats
 
 This artifact is the result of a calculation or audit that establishes a result.
@@ -423,6 +480,86 @@ encoded results as Private Use values prior to publication of an RFC.
 
 
 --- back
+
+# Worked Examples {#examples}
+
+The two results below were produced by a minimal Verifier written against the CDDL in this document and run over hardware-signed attestation artifacts captured from a single workload in public clouds.
+Both verify against public roots; both yield `jurisdiction-country` "NL"; they rest on different classes.
+
+## Microsoft Azure, West Europe (basis: endorsement)
+
+The only locational signal in a Microsoft Azure Attestation token is the issuer hostname: a region-scoped service identity asserted by the issuer and covered by its signature.
+The Verifier accepted it as an Endorsement and records that class.
+
+~~~~
+{
+  / grc.jurisdiction-country / 0: "NL",
+  / grc.claim-uuid /          13: h'814f1a077ed25b798641788ef6dab3a1',
+  / grc.basis /               14: 1  / endorsement /
+}
+~~~~
+
+Encoded (25 bytes):
+
+~~~~
+a300624e4c0d50814f1a077ed25b798641788ef6dab3a10e01
+~~~~
+
+## Google Cloud, europe-west4 (basis: attestation-result)
+
+An AMD SEV-SNP ATTESTATION_REPORT contains no locational field by definition of its ABI.
+The zone came from capture metadata stored next to the report, unsigned.
+The Verifier appraised it on its own authority and records `attestation-result`.
+Because a zone is more specific than a region-scoped hostname, this result also carries a city: the result with less behind it is the more detailed one.
+
+~~~~
+{
+  / grc.jurisdiction-country / 0: "NL",
+  / grc.jurisdiction-city /    4: "Eemshaven",
+  / grc.claim-uuid /          13: h'5e1a26c009cb5e8489c4f9efa68f78ad',
+  / grc.basis /               14: 2  / attestation-result /
+}
+~~~~
+
+Encoded (36 bytes):
+
+~~~~
+a400624e4c046945656d73686176656e0d505e1a26c009cb5e8489c4f9efa68f78ad0e02
+~~~~
+
+{{fig-wire}} annotates both encodings byte by byte.
+
+~~~~
+Microsoft Azure, West Europe: basis endorsement, 25 bytes
+
+a3                                      # map(3)
+   00                                   #  key 0 jurisdiction-country
+   62 4e4c                              #  text(2) "NL"
+   0d                                   #  key 13 claim-uuid
+   50 814f1a077ed25b798641788ef6dab3a1  #  bytes(16)
+   0e                                   #  key 14 basis
+   01                                   #  1 = endorsement
+
+Google Cloud, europe-west4: basis attestation-result, 36 bytes
+
+a4                                      # map(4)
+   00                                   #  key 0 jurisdiction-country
+   62 4e4c                              #  text(2) "NL"
+   04                                   #  key 4 jurisdiction-city
+   69 45656d73686176656e                #  text(9) "Eemshaven"
+   0d                                   #  key 13 claim-uuid
+   50 5e1a26c009cb5e8489c4f9efa68f78ad  #  bytes(16)
+   0e                                   #  key 14 basis
+   02                                   #  2 = attestation-result
+~~~~
+{: #fig-wire title="The two results, annotated"}
+
+The jurisdiction claim is the same four bytes, 00 62 4e 4c, in each.
+Both maps validate against the CDDL in this document; a map carrying `basis` 3, `basis` as a text string, or a 15-byte `claim-uuid` is rejected.
+The Verifier used is a minimal implementation of this document written by one of the authors.
+Across the 26 artifacts of the capture (twelve AWS Nitro documents, ten SEV-SNP reports, four Azure tokens) every signature verified against its public root.
+The Verifier emitted a geographic result for the 19 artifacts that carried any locational input and none for the seven SEV-SNP reports that carried none at all; all 19 results validate.
+
 
 # Proof of Placement {#presence}
 
