@@ -1034,7 +1034,7 @@ svg {
   & :is([stroke="white"], [stroke^="#fff"]) {
     stroke: var(--background-color);
   }
-  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+  & :is([fill="black"], [fill^="#000"], :not([fill], [fill] *)) {
     fill: var(--text-color);
   }
   & :is([fill="white"], [fill^="#fff"]) {
@@ -1053,7 +1053,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Richardson &amp; Nikolaichuk</td>
-<td class="center">Expires 8 May 2027</td>
+<td class="center">Expires 18 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-richardson-rats-geographic-results-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-04" class="published">4 November 2026</time>
+<time datetime="2026-11-14" class="published">14 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-08">8 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-18">18 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1128,7 +1128,7 @@ In addition, one mechanism of directly creating a geographic result in the form 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 18 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1274,40 +1274,132 @@ In addition, one mechanism of directly creating a geographic result in the form 
 <p id="section-1-1">Resolving the question of where certain computations are done can be critical to assessing how much trust to put into the result.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">MORE USE CASES HERE.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3"><span>[<a href="#I-D.ietf-rats-ear" class="cite xref">I-D.ietf-rats-ear</a>]</span> provides a framework that allows an <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span> Verifier to return a conclusion as to geographic region for an Target Environment.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">While <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>], <a href="https://rfc-editor.org/rfc/rfc9711#section-4.2.10" class="relref">Section 4.2.10</a></span> provides a very good WGS84 based location claim, often very suitable as Evidence, it is not ideal for the use by Relying Parties.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">There are a few reasons:<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-4"><a href="#fig-dataflow" class="auto internal xref">Figure 1</a> places the geographic result in the data flow of <span>[<a href="#RFC9334" class="cite xref">RFC9334</a>]</span>: the Verifier appraises Evidence or Endorsements about location by a method outside this document and returns one format to the Relying Party.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<span id="name-geographic-attestation-resu"></span><div id="fig-dataflow">
+<figure id="figure-1">
+        <div id="section-1-5.1">
+          <div class="alignLeft art-svg artwork" id="section-1-5.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="272" width="560" viewBox="0 0 560 272" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+              <path d="M 8,48 L 8,80" fill="none" stroke="black"></path>
+              <path d="M 8,112 L 8,144" fill="none" stroke="black"></path>
+              <path d="M 96,48 L 96,80" fill="none" stroke="black"></path>
+              <path d="M 96,112 L 96,144" fill="none" stroke="black"></path>
+              <path d="M 248,112 L 248,208" fill="none" stroke="black"></path>
+              <path d="M 312,64 L 312,104" fill="none" stroke="black"></path>
+              <path d="M 376,112 L 376,208" fill="none" stroke="black"></path>
+              <path d="M 424,112 L 424,208" fill="none" stroke="black"></path>
+              <path d="M 488,80 L 488,104" fill="none" stroke="black"></path>
+              <path d="M 552,112 L 552,208" fill="none" stroke="black"></path>
+              <path d="M 8,48 L 96,48" fill="none" stroke="black"></path>
+              <path d="M 96,64 L 312,64" fill="none" stroke="black"></path>
+              <path d="M 8,80 L 96,80" fill="none" stroke="black"></path>
+              <path d="M 8,112 L 96,112" fill="none" stroke="black"></path>
+              <path d="M 248,112 L 376,112" fill="none" stroke="black"></path>
+              <path d="M 424,112 L 552,112" fill="none" stroke="black"></path>
+              <path d="M 96,128 L 240,128" fill="none" stroke="black"></path>
+              <path d="M 8,144 L 96,144" fill="none" stroke="black"></path>
+              <path d="M 376,160 L 416,160" fill="none" stroke="black"></path>
+              <path d="M 248,208 L 376,208" fill="none" stroke="black"></path>
+              <path d="M 424,208 L 552,208" fill="none" stroke="black"></path>
+              <polygon class="arrowhead" points="496,104 484,98.4 484,109.6" fill="black" transform="rotate(90,488,104)"></polygon>
+              <polygon class="arrowhead" points="424,160 412,154.4 412,165.6" fill="black" transform="rotate(0,416,160)"></polygon>
+              <polygon class="arrowhead" points="320,104 308,98.4 308,109.6" fill="black" transform="rotate(90,312,104)"></polygon>
+              <polygon class="arrowhead" points="248,128 236,122.4 236,133.6" fill="black" transform="rotate(0,240,128)"></polygon>
+              <g class="text">
+                <text x="200" y="36">Endorsement</text>
+                <text x="272" y="36">about</text>
+                <text x="332" y="36">location</text>
+                <text x="464" y="36">Appraisal</text>
+                <text x="532" y="36">Policy</text>
+                <text x="168" y="52">(an</text>
+                <text x="220" y="52">auditor,</text>
+                <text x="292" y="52">Appendix</text>
+                <text x="340" y="52">A)</text>
+                <text x="440" y="52">for</text>
+                <text x="504" y="52">Attestation</text>
+                <text x="52" y="68">Endorser</text>
+                <text x="456" y="68">Results</text>
+                <text x="148" y="116">Evidence</text>
+                <text x="196" y="116">of</text>
+                <text x="52" y="132">Attester</text>
+                <text x="308" y="132">Verifier</text>
+                <text x="464" y="132">Relying</text>
+                <text x="520" y="132">Party</text>
+                <text x="152" y="148">location:</text>
+                <text x="296" y="148">appraises</text>
+                <text x="348" y="148">by</text>
+                <text x="404" y="148">AR</text>
+                <text x="456" y="148">reads</text>
+                <text x="496" y="148">one</text>
+                <text x="136" y="164">GNSS,</text>
+                <text x="180" y="164">PTP,</text>
+                <text x="264" y="164">a</text>
+                <text x="300" y="164">method</text>
+                <text x="348" y="164">this</text>
+                <text x="464" y="164">format,</text>
+                <text x="136" y="180">TRIP,</text>
+                <text x="184" y="180">V-PEA</text>
+                <text x="292" y="180">document</text>
+                <text x="348" y="180">does</text>
+                <text x="468" y="180">whatever</text>
+                <text x="520" y="180">the</text>
+                <text x="272" y="196">not</text>
+                <text x="316" y="196">define</text>
+                <text x="460" y="196">method</text>
+                <text x="12" y="244">AR</text>
+                <text x="32" y="244">=</text>
+                <text x="88" y="244">Attestation</text>
+                <text x="164" y="244">Result</text>
+                <text x="228" y="244">carrying</text>
+                <text x="368" y="244">geographic-result-claims:</text>
+                <text x="56" y="260">the</text>
+                <text x="124" y="260">jurisdiction</text>
+                <text x="208" y="260">claims,</text>
+                <text x="284" y="260">claim-uuid</text>
+                <text x="344" y="260">and</text>
+                <text x="384" y="260">basis</text>
+              </g>
+            </svg><a href="#section-1-5.1.1" class="pilcrow">¶</a>
+</div>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-geographic-attestation-resu" class="selfRef">Geographic Attestation Result in the RATS data flow</a>
+        </figcaption></figure>
+</div>
+<p id="section-1-6">While <span>[<a href="#RFC9711" class="cite xref">RFC9711</a>], <a href="https://rfc-editor.org/rfc/rfc9711#section-4.2.10" class="relref">Section 4.2.10</a></span> provides a very good WGS84 based location claim, often very suitable as Evidence, it is not ideal for the use by Relying Parties.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-7">There are a few reasons:<a href="#section-1-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1-6.1">
-          <p id="section-1-6.1.1">the latitude and longitude describe a location on the Earth. The Relying Party is seldom interested in that level of detail.  It needs to know if it's in an acceptable place.<a href="#section-1-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-1-8.1">
+          <p id="section-1-8.1.1">the latitude and longitude describe a location on the Earth. The Relying Party is seldom interested in that level of detail.  It needs to know if it's in an acceptable place.<a href="#section-1-8.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-6.2">
-          <p id="section-1-6.2.1">the geographic position can leak significant amount of private information that is not necessary for the Relying Party to know.   Information not collected/stored can not be inadvertently disclosed.<a href="#section-1-6.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-1-8.2">
+          <p id="section-1-8.2.1">the geographic position can leak significant amount of private information that is not necessary for the Relying Party to know.   Information not collected/stored can not be inadvertently disclosed.<a href="#section-1-8.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-6.3">
-          <p id="section-1-6.3.1">for many activities, it is the Legal Jurisdiction that matters, not the actual location.
+        <li class="normal" id="section-1-8.3">
+          <p id="section-1-8.3.1">for many activities, it is the Legal Jurisdiction that matters, not the actual location.
 Jurisdictions often do not have well defined concentric boundaries.
 For instance, the South Korean Consultate in Los Angelos is usually for Legal purposes, in Korea.
-Yet, only a few meters away, possibly below the level of WGS84 accuracy, the jurisdiction would be different.<a href="#section-1-6.3.1" class="pilcrow">¶</a></p>
+Yet, only a few meters away, possibly below the level of WGS84 accuracy, the jurisdiction would be different.<a href="#section-1-8.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-1-7">This document offers a new set of structured abstract claims that provides an evaluated view of where a Target Environment is.
-The mechanism to do this appraisal may depend upon a number of factors which may be related to physical geographic position, but also include other considerations.<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">There are many different ways in which a Verifier might generate this result from Evidence and/or Endorsements that are provided to it.
+<p id="section-1-9">This document offers a new set of structured abstract claims that provides an evaluated view of where a Target Environment is.
+The mechanism to do this appraisal may depend upon a number of factors which may be related to physical geographic position, but also include other considerations.<a href="#section-1-9" class="pilcrow">¶</a></p>
+<p id="section-1-10">There are many different ways in which a Verifier might generate this result from Evidence and/or Endorsements that are provided to it.
 The exact method can be important for a small number of uses, but more often, if the Verify is trusted, then the details are not important.
 The exact method may be of interest only during forensic audits.
-This document does <em>not</em> standardize any mechanism for a Verify to appraise location data.<a href="#section-1-8" class="pilcrow">¶</a></p>
-<p id="section-1-9">The most obvious way is through various Global Navitation Satellite Systems (GNSS): the United States Global Positioning System (GPS), Russia's Global Navigation Satellite System (GLONASS), China's BeiDou Navigation Satellite System (BDS) and the European Union's Galileo.
+This document does <em>not</em> standardize any mechanism for a Verify to appraise location data.<a href="#section-1-10" class="pilcrow">¶</a></p>
+<p id="section-1-11">The most obvious way is through various Global Navitation Satellite Systems (GNSS): the United States Global Positioning System (GPS), Russia's Global Navigation Satellite System (GLONASS), China's BeiDou Navigation Satellite System (BDS) and the European Union's Galileo.
 These signals can be spoofed, manipulated and suppressed, however that does not render these signals useless, just that the level of trust must be carefully evaluated.
-There are also many environments, such as inside a (Faraday) cage in a Data Center, where GNSS signals do not reach.<a href="#section-1-9" class="pilcrow">¶</a></p>
-<p id="section-1-10">There are also other radio methods, such as time of travel calculations from a mobile (LTE) tower.<a href="#section-1-10" class="pilcrow">¶</a></p>
-<p id="section-1-11"><span>[<a href="#I-D.lkspa-rats-verifiable-geo-fence" class="cite xref">I-D.lkspa-rats-verifiable-geo-fence</a>]</span> provides a more general architecture for such evaluations.<a href="#section-1-11" class="pilcrow">¶</a></p>
-<p id="section-1-12">As an example of another method, described in <span>[<a href="#I-D.ramki-ptp-hardware-rooted-attestation" class="cite xref">I-D.ramki-ptp-hardware-rooted-attestation</a>]</span>,  there could be Evidence that a Target Environment is less than 1ns (as light travels in a fiber optic cable) away from another Target Enviroment whose location is known.
-Given a typical fiber optic cable has a speed of 200,000 kilometers per second (slower than light in a vacuum due to the index of refraction of the glass involved), so if the round trip time between environments is 1ns, then the distance between Target Environments can be appraised to be within 1m of each other.<a href="#section-1-12" class="pilcrow">¶</a></p>
-<p id="section-1-13">Whether or not any of these methods are a good enough measure of location is not the subject of this document.
-Rather, if a Verifier believes that information trustworthy for the purpose intended, then it may use the format described here to document it's conclusion.<a href="#section-1-13" class="pilcrow">¶</a></p>
-<p id="section-1-14">In addition to detailing the Attestation Result (EAR) format for the results, this document also addresses the case of an Endorsement created as to a device's location.
+There are also many environments, such as inside a (Faraday) cage in a Data Center, where GNSS signals do not reach.<a href="#section-1-11" class="pilcrow">¶</a></p>
+<p id="section-1-12">There are also other radio methods, such as time of travel calculations from a mobile (LTE) tower.<a href="#section-1-12" class="pilcrow">¶</a></p>
+<p id="section-1-13"><span>[<a href="#I-D.lkspa-rats-verifiable-geo-fence" class="cite xref">I-D.lkspa-rats-verifiable-geo-fence</a>]</span> provides a more general architecture for such evaluations.<a href="#section-1-13" class="pilcrow">¶</a></p>
+<p id="section-1-14">As an example of another method, described in <span>[<a href="#I-D.ramki-ptp-hardware-rooted-attestation" class="cite xref">I-D.ramki-ptp-hardware-rooted-attestation</a>]</span>,  there could be Evidence that a Target Environment is less than 1ns (as light travels in a fiber optic cable) away from another Target Enviroment whose location is known.
+Given a typical fiber optic cable has a speed of 200,000 kilometers per second (slower than light in a vacuum due to the index of refraction of the glass involved), so if the round trip time between environments is 1ns, then the distance between Target Environments can be appraised to be within 1m of each other.<a href="#section-1-14" class="pilcrow">¶</a></p>
+<p id="section-1-15">Whether or not any of these methods are a good enough measure of location is not the subject of this document.
+Rather, if a Verifier believes that information trustworthy for the purpose intended, then it may use the format described here to document it's conclusion.<a href="#section-1-15" class="pilcrow">¶</a></p>
+<p id="section-1-16">In addition to detailing the Attestation Result (EAR) format for the results, this document also addresses the case of an Endorsement created as to a device's location.
 <a href="#presence" class="auto internal xref">Appendix B</a> details a processs by which this Endorsement could be generated by a human auditor equipped with a smartphone, tablet, or dedicated auditing device.
-<a href="#presence" class="auto internal xref">Appendix B</a> is not a normative part of the Attestation Result defined below, but it is considered a normative process defined by this document.<a href="#section-1-14" class="pilcrow">¶</a></p>
+<a href="#presence" class="auto internal xref">Appendix B</a> is not a normative part of the Attestation Result defined below, but it is considered a normative process defined by this document.<a href="#section-1-16" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1700,11 +1792,43 @@ Because a zone is more specific than a region-scoped hostname, this result also 
 a400624e4c046945656d73686176656e0d505e1a26c009cb5e8489c4f9efa68f78ad0e02
 </pre><a href="#appendix-A.2-4" class="pilcrow">¶</a>
 </div>
-<p id="appendix-A.2-5">The jurisdiction claim is the same four bytes, 00 62 4e 4c, in each.
+<p id="appendix-A.2-5"><a href="#fig-wire" class="auto internal xref">Figure 2</a> annotates both encodings byte by byte.<a href="#appendix-A.2-5" class="pilcrow">¶</a></p>
+<span id="name-the-two-results-annotated"></span><div id="fig-wire">
+<figure id="figure-2">
+          <div class="alignLeft art-text artwork" id="appendix-A.2-6.1">
+<pre>
+Microsoft Azure, West Europe: basis endorsement, 25 bytes
+
+a3                                      # map(3)
+   00                                   #  key 0 jurisdiction-country
+   62 4e4c                              #  text(2) "NL"
+   0d                                   #  key 13 claim-uuid
+   50 814f1a077ed25b798641788ef6dab3a1  #  bytes(16)
+   0e                                   #  key 14 basis
+   01                                   #  1 = endorsement
+
+Google Cloud, europe-west4: basis attestation-result, 36 bytes
+
+a4                                      # map(4)
+   00                                   #  key 0 jurisdiction-country
+   62 4e4c                              #  text(2) "NL"
+   04                                   #  key 4 jurisdiction-city
+   69 45656d73686176656e                #  text(9) "Eemshaven"
+   0d                                   #  key 13 claim-uuid
+   50 5e1a26c009cb5e8489c4f9efa68f78ad  #  bytes(16)
+   0e                                   #  key 14 basis
+   02                                   #  2 = attestation-result
+</pre>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-the-two-results-annotated" class="selfRef">The two results, annotated</a>
+          </figcaption></figure>
+</div>
+<p id="appendix-A.2-7">The jurisdiction claim is the same four bytes, 00 62 4e 4c, in each.
 Both maps validate against the CDDL in this document; a map carrying <code>basis</code> 3, <code>basis</code> as a text string, or a 15-byte <code>claim-uuid</code> is rejected.
 The Verifier used is a minimal implementation of this document written by one of the authors.
 Across the 26 artifacts of the capture (twelve AWS Nitro documents, ten SEV-SNP reports, four Azure tokens) every signature verified against its public root.
-The Verifier emitted a geographic result for the 19 artifacts that carried any locational input and none for the seven SEV-SNP reports that carried none at all; all 19 results validate.<a href="#appendix-A.2-5" class="pilcrow">¶</a></p>
+The Verifier emitted a geographic result for the 19 artifacts that carried any locational input and none for the seven SEV-SNP reports that carried none at all; all 19 results validate.<a href="#appendix-A.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

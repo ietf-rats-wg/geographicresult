@@ -5,7 +5,7 @@
 RATS (if adopted)                                          M. Richardson
 Internet-Draft                                  Sandelman Software Works
 Intended status: Standards Track                          S. Nikolaichuk
-Expires: 8 May 2027                                      4 November 2026
+Expires: 18 May 2027                                    14 November 2026
 
 
                      Geographic Attestation Results
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 May 2027.
+   This Internet-Draft will expire on 18 May 2027.
 
 Copyright Notice
 
@@ -118,6 +118,29 @@ Table of Contents
    [I-D.ietf-rats-ear] provides a framework that allows an [RFC9334]
    Verifier to return a conclusion as to geographic region for an Target
    Environment.
+
+   Figure 1 places the geographic result in the data flow of [RFC9334]:
+   the Verifier appraises Evidence or Endorsements about location by a
+   method outside this document and returns one format to the Relying
+   Party.
+
+                      Endorsement about location        Appraisal Policy
+   .----------.       (an auditor, Appendix A)          for Attestation
+   | Endorser +--------------------------.              Results
+   '----------'                          |                     |
+                                         v                     v
+   .----------.  Evidence of     .---------------.     .---------------.
+   | Attester +----------------->|   Verifier    |     | Relying Party |
+   '----------'  location:       | appraises by  |  AR | reads one     |
+                 GNSS, PTP,      | a method this +---->| format,       |
+                 TRIP, V-PEA     | document does |     | whatever the  |
+                                 | not define    |     | method        |
+                                 '---------------'     '---------------'
+
+   AR = Attestation Result carrying geographic-result-claims:
+        the jurisdiction claims, claim-uuid and basis
+
+       Figure 1: Geographic Attestation Result in the RATS data flow
 
    While [RFC9711], Section 4.2.10 provides a very good WGS84 based
    location claim, often very suitable as Evidence, it is not ideal for
@@ -598,6 +621,32 @@ A.2.  Google Cloud, europe-west4 (basis: attestation-result)
    Encoded (36 bytes):
 
 a400624e4c046945656d73686176656e0d505e1a26c009cb5e8489c4f9efa68f78ad0e02
+
+   Figure 2 annotates both encodings byte by byte.
+
+   Microsoft Azure, West Europe: basis endorsement, 25 bytes
+
+   a3                                      # map(3)
+      00                                   #  key 0 jurisdiction-country
+      62 4e4c                              #  text(2) "NL"
+      0d                                   #  key 13 claim-uuid
+      50 814f1a077ed25b798641788ef6dab3a1  #  bytes(16)
+      0e                                   #  key 14 basis
+      01                                   #  1 = endorsement
+
+   Google Cloud, europe-west4: basis attestation-result, 36 bytes
+
+   a4                                      # map(4)
+      00                                   #  key 0 jurisdiction-country
+      62 4e4c                              #  text(2) "NL"
+      04                                   #  key 4 jurisdiction-city
+      69 45656d73686176656e                #  text(9) "Eemshaven"
+      0d                                   #  key 13 claim-uuid
+      50 5e1a26c009cb5e8489c4f9efa68f78ad  #  bytes(16)
+      0e                                   #  key 14 basis
+      02                                   #  2 = attestation-result
+
+                    Figure 2: The two results, annotated
 
    The jurisdiction claim is the same four bytes, 00 62 4e 4c, in each.
    Both maps validate against the CDDL in this document; a map carrying
