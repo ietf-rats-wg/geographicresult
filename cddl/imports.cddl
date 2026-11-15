@@ -1,0 +1,17 @@
+; What the CDDL of the document uses and does not define.
+; A CDDL tool needs these definitions to check the worked examples:
+; examples/Makefile.
+
+; RFC 9711 defines JC<J, C> as J in JSON and as C in CBOR.
+; The worked examples are CBOR, so the check uses the CBOR arm.
+eat.JC<J, C> = C
+
+; RFC 9711
+eat.base64-url-text = tstr .regexp "[A-Za-z0-9_-]+"
+
+; draft-ietf-rats-corim
+corim.uuid-type = bytes .size 16
+
+; The CDDL of the document uses non-empty and does not define it.
+; This is the definition that draft-ietf-rats-ear builds its extensions with.
+non-empty<M> = (M) .within ({ + any => any })

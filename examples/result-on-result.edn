@@ -1,0 +1,8 @@
+{
+  / grc.jurisdiction-country / 0: "NL",
+  / grc.claim-uuid /          13: h'2bfa42bce6e45c2ab556b6a0862d11f7',
+  / grc.basis /               14: 2  / attestation-result /,
+  / grc.basis-ref /           16: h'9c413213e4ad5396b1413d7e1c37c4f6',
+  / grc.observed-from /       17: 1(1767226500),
+  / grc.observed-until /      18: 1(1767283200)
+}

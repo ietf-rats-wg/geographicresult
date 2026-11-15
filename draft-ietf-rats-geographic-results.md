@@ -226,83 +226,7 @@ There are some additional things which may be received as Evidence, but which is
 # CDDL Definition
 
 ~~~~
-; # import rfc9711 as eat
-; # import rfcXXXX as corim
-
-$$ear-appraisal-extension //= (
-    ear.geographic-result-label => geographic-result-claims
-)
-
-geographic-result-claims = non-empty<{
-  ? grc.claim-uuid-label => grc.claim-uuid
-  ? grc.basis-label => grc.basis-class
-  ? grc.basis-ref-label => corim.uuid-type
-  ? grc.provence   => grc.provence-values
-  ? grc.observed-from-label => time
-  ? grc.observed-until-label => time
-  ? grc.jurisdiction-country-label => iso-3166-alpha-2-country-code
-  ? grc.jurisdiction-country-exclave-label => bool
-  ? grc.jurisdiction-subdivision-label => tstr .size (2..16)
-  ? grc.jurisdiction-subdivision-exclave-label => bool
-  ? grc.jurisdiction-city-label => tstr .size(2..16)
-  ? grc.jurisdiction-city-exclave-label => bool
-  ? grc.enclosing-exclave-country-label => iso-3166-alpha-2-country-code
-  ? grc.near-to-label => corim.uuid-type
-  ? grc.rack-U-number-label => uint .gt 0
-  ? grc.cabinet-number => uint .gt 0
-  ? grc.hallway-number => uint
-  ? grc.room-number => tstr .size (2..64)
-  ? grc.floor-number => int
-  ? grc.zone-membership-label => grc.zone-membership
-}>
-
-ear.geographic-result-label = eat.JC<"TBD02", TBD01>
-
-grc.jurisdiction-country-label = eat.JC<"grc.jurisdiction-country", 0>
-grc.jurisdiction-country-exclave-label =
-        eat.JC<"grc.jurisdiction-country-exclave", 1>
-grc.jurisdiction-subdivision-label = eat.JC<"grc.jurisdiction-state", 2>
-grc.jurisdiction-subdivision-exclave-label =
-        eat.JC<"grc.jurisdiction-subdivision-exclave", 3>
-grc.jurisdiction-city-label = eat.JC<"grc.jurisdiction-city", 4>
-grc.jurisdiction-city-exclave-label =
-        eat.JC<"grc.jurisdiction-city-exclave", 5>
-grc.enclosing-exclave-country-label =
-        eat.JC<"grc.enclosing-exclave-country", 6>
-grc.near-to-label  = eat.JC<"grc.near-to", 7>
-grc.rack-U-number-label = eat.JC<"grc.rack-U-number", 8>
-grc.cabinet-number = eat.JC<"grc.cabinet-number", 9>
-grc.hallway-number = eat.JC<"grc.hallway-number", 10>
-grc.room-number = eat.JC<"grc.room-number", 12>
-grc.floor-number = eat.JC<"grc.floor-number", 11>
-grc.provence   = eat.JC("grc.provence-values", 12>
-
-; the class of artifact a geographic result
-;     rests on (RFC 9334, Section 4.2)
-grc.claim-uuid-label = eat.JC<"grc.claim-uuid", 14>
-grc.claim-uuid = corim.uuid-type
-
-grc.basis-label = eat.JC<"grc.basis", 15>
-grc.basis-class = &(
-  evidence: 0,
-  endorsement: 1,
-  attestation-result: 2,
-)
-
-grc.basis-ref-label = eat.JC<"grc.basis-ref", 16>
-grc.observed-from-label = eat.JC<"grc.observed-from", 17>
-grc.observed-until-label = eat.JC<"grc.observed-until", 18>
-
-grc.zone-membership-label = eat.JC<"grc.zone-membership", 19>
-grc.zone-membership = [
-  zone-id: tstr .size (1..255),
-  boundary-digest: eat.JC<grc.zone-digest-json, grc.zone-digest-cbor>
-]
-grc.zone-digest-json = eat.base64-url-text .size 43
-grc.zone-digest-cbor = bstr .size 32
-
-iso-3166-alpha-2-country-code = tstr .size 2
-
+{::include cddl/geographic-results.cddl}
 ~~~~
 
 There are a number of different fields in this claim, and all of them are marked optional.
@@ -507,17 +431,13 @@ The only locational signal in a Microsoft Azure Attestation token is the issuer 
 The Verifier accepted it as an Endorsement and records that class.
 
 ~~~~
-{
-  / grc.jurisdiction-country / 0: "NL",
-  / grc.claim-uuid /          14: h'814f1a077ed25b798641788ef6dab3a1',
-  / grc.basis /               15: 1  / endorsement /
-}
+{::include examples/azure-west-europe.edn}
 ~~~~
 
 Encoded (25 bytes):
 
 ~~~~
-a300624e4c0d50814f1a077ed25b798641788ef6dab3a10e01
+{::include examples/azure-west-europe.hex}
 ~~~~
 
 ## Google Cloud, europe-west4 (basis: attestation-result)
@@ -528,42 +448,23 @@ The Verifier appraised it on its own authority and records `attestation-result`.
 Because a zone is more specific than a region-scoped hostname, this result also carries a city: the result with less behind it is the more detailed one.
 
 ~~~~
-{
-  / grc.jurisdiction-country / 0: "NL",
-  / grc.jurisdiction-city /    4: "Eemshaven",
-  / grc.claim-uuid /          14: h'5e1a26c009cb5e8489c4f9efa68f78ad',
-  / grc.basis /               15: 2  / attestation-result /
-}
+{::include examples/google-europe-west4.edn}
 ~~~~
 
 Encoded (36 bytes):
 
 ~~~~
-a400624e4c046945656d73686176656e0d505e1a26c009cb5e8489c4f9efa68f78ad0e02
+{::include examples/google-europe-west4.hex}
 ~~~~
 
 ~~~~
 Microsoft Azure, West Europe: basis endorsement, 25 bytes
 
-a3                                      # map(3)
-   00                                   #  key 0 jurisdiction-country
-   62 4e4c                              #  text(2) "NL"
-   0d                                   #  key 13 claim-uuid
-   50 814f1a077ed25b798641788ef6dab3a1  #  bytes(16)
-   0e                                   #  key 14 basis
-   01                                   #  1 = endorsement
+{::include examples/azure-west-europe.pretty}
 
 Google Cloud, europe-west4: basis attestation-result, 36 bytes
 
-a4                                      # map(4)
-   00                                   #  key 0 jurisdiction-country
-   62 4e4c                              #  text(2) "NL"
-   04                                   #  key 4 jurisdiction-city
-   69 45656d73686176656e                #  text(9) "Eemshaven"
-   0d                                   #  key 13 claim-uuid
-   50 5e1a26c009cb5e8489c4f9efa68f78ad  #  bytes(16)
-   0e                                   #  key 14 basis
-   02                                   #  2 = attestation-result
+{::include examples/google-europe-west4.pretty}
 ~~~~
 {: #fig-wire title="The two results, annotated"}
 
@@ -578,21 +479,13 @@ The Verifier emitted a geographic result for the 19 artifacts that carried any l
 A Verifier consumed a geographic result that another Verifier had derived from a device-signed trajectory (sixty-four H3 cells collected fifteen minutes apart; the set was supplied by the author of draft-ayerbe-trip-protocol and is labelled synthetic), and emitted its own:
 
 ~~~~
-{
-  / grc.jurisdiction-country / 0: "NL",
-  / grc.claim-uuid /          13: h'2bfa42bce6e45c2ab556b6a0862d11f7',
-  / grc.basis /               14: 2  / attestation-result /,
-  / grc.basis-ref /           16: h'9c413213e4ad5396b1413d7e1c37c4f6',
-  / grc.observed-from /       17: 1(1767226500),
-  / grc.observed-until /      18: 1(1767283200)
-}
+{::include examples/result-on-result.edn}
 ~~~~
 
 Encoded (57 bytes):
 
 ~~~~
-a600624e4c0d502bfa42bce6e45c2ab556b6a0862d11f70e0210509c413213
-e4ad5396b1413d7e1c37c4f611c11a6955bc8412c11a69569a00
+{::include examples/result-on-result.hex}
 ~~~~
 
 {{fig-chain}} shows the two Verifiers and what each result carries.
