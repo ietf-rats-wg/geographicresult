@@ -1548,19 +1548,21 @@ grc.cabinet-number = eat.JC&lt;"grc.cabinet-number", 9&gt;
 grc.hallway-number = eat.JC&lt;"grc.hallway-number", 10&gt;
 grc.room-number = eat.JC&lt;"grc.room-number", 12&gt;
 grc.floor-number = eat.JC&lt;"grc.floor-number", 11&gt;
-grc.provence   = eat.JC("grc.provence-values", 12&gt;
 
-; the class of artifact a geographic result
-;     rests on (RFC 9334, Section 4.2)
-grc.claim-uuid-label = eat.JC&lt;"grc.claim-uuid", 14&gt;
+grc.claim-uuid-label = eat.JC&lt;"grc.claim-uuid", 13&gt;
 grc.claim-uuid = corim.uuid-type
 
-grc.basis-label = eat.JC&lt;"grc.basis", 15&gt;
+grc.basis-label = eat.JC&lt;"grc.basis", 14&gt;
+; the class of artifact a geographic result
+;     rests on (RFC 9334, Section 4.2)
 grc.basis-class = &amp;(
   evidence: 0,
   endorsement: 1,
   attestation-result: 2,
 )
+
+grc.provence = eat.JC&lt;"grc.provence", 15&gt;
+grc.provence-values = tstr / uint
 
 grc.basis-ref-label = eat.JC&lt;"grc.basis-ref", 16&gt;
 grc.observed-from-label = eat.JC&lt;"grc.observed-from", 17&gt;
@@ -1575,7 +1577,6 @@ grc.zone-digest-json = eat.base64-url-text .size 43
 grc.zone-digest-cbor = bstr .size 32
 
 iso-3166-alpha-2-country-code = tstr .size 2
-
 </pre><a href="#section-4-1" class="pilcrow">¶</a>
 </div>
 <p id="section-4-2">There are a number of different fields in this claim, and all of them are marked optional.
@@ -1972,8 +1973,8 @@ The Verifier accepted it as an Endorsement and records that class.<a href="#appe
 <pre>
 {
   / grc.jurisdiction-country / 0: "NL",
-  / grc.claim-uuid /          14: h'814f1a077ed25b798641788ef6dab3a1',
-  / grc.basis /               15: 1  / endorsement /
+  / grc.claim-uuid /          13: h'814f1a077ed25b798641788ef6dab3a1',
+  / grc.basis /               14: 1  / endorsement /
 }
 </pre><a href="#appendix-A.1-2" class="pilcrow">¶</a>
 </div>
@@ -1999,15 +2000,16 @@ Because a zone is more specific than a region-scoped hostname, this result also 
 {
   / grc.jurisdiction-country / 0: "NL",
   / grc.jurisdiction-city /    4: "Eemshaven",
-  / grc.claim-uuid /          14: h'5e1a26c009cb5e8489c4f9efa68f78ad',
-  / grc.basis /               15: 2  / attestation-result /
+  / grc.claim-uuid /          13: h'5e1a26c009cb5e8489c4f9efa68f78ad',
+  / grc.basis /               14: 2  / attestation-result /
 }
 </pre><a href="#appendix-A.2-2" class="pilcrow">¶</a>
 </div>
 <p id="appendix-A.2-3">Encoded (36 bytes):<a href="#appendix-A.2-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-A.2-4">
 <pre>
-a400624e4c046945656d73686176656e0d505e1a26c009cb5e8489c4f9efa68f78ad0e02
+a400624e4c046945656d73686176656e0d505e1a26c009cb5e8489c4f9efa6
+8f78ad0e02
 </pre><a href="#appendix-A.2-4" class="pilcrow">¶</a>
 </div>
 <span id="name-the-two-results-annotated"></span><div id="fig-wire">
