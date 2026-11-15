@@ -2,10 +2,11 @@
 
 
 
-RATS (if adopted)                                          M. Richardson
+Remote ATtestation ProcedureS                              M. Richardson
 Internet-Draft                                  Sandelman Software Works
 Intended status: Standards Track                          S. Nikolaichuk
-Expires: 19 May 2027                                    15 November 2026
+Expires: 19 May 2027                               The Capital Index LLC
+                                                        15 November 2026
 
 
                      Geographic Attestation Results
@@ -34,13 +35,13 @@ About This Document
    Status information for this document may be found at
    https://datatracker.ietf.org/doc/draft-ietf-rats-geographic-results/.
 
-   Discussion of this document takes place on the RATS Working Group
-   mailing list (mailto:rats@ietf.org), which is archived at
-   https://mailarchive.ietf.org/arch/browse/rats/.  Subscribe at
-   https://www.ietf.org/mailman/listinfo/rats/.
+   Discussion of this document takes place on the Remote ATtestation
+   ProcedureS Working Group mailing list (mailto:rats@ietf.org), which
+   is archived at https://mailarchive.ietf.org/arch/browse/rats/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/rats/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/mcr/geographicresult.
+   https://github.com/ietf-rats-wg/geographicresult.
 
 Status of This Memo
 
@@ -1267,4 +1268,5 @@ Authors' Addresses
 
 
    Serhii Nikolaichuk
+   The Capital Index LLC
    Email: nikolaichuk.s.f@gmail.com
