@@ -5,8 +5,8 @@
 Remote ATtestation ProcedureS                              M. Richardson
 Internet-Draft                                  Sandelman Software Works
 Intended status: Standards Track                          S. Nikolaichuk
-Expires: 19 May 2027                               The Capital Index LLC
-                                                        15 November 2026
+Expires: 20 May 2027                               The Capital Index LLC
+                                                        16 November 2026
 
 
                      Geographic Attestation Results
@@ -58,7 +58,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 May 2027.
+   This Internet-Draft will expire on 20 May 2027.
 
 Copyright Notice
 
