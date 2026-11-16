@@ -44,28 +44,8 @@ normative:
   I-D.ietf-rats-endorsements:
 
 informative:
+  I-D.ietf-seat-use-cases:
   RFC9360:
-  RFC9266:
-  ID-Crisis:
-    target: https://doi.org/10.1145/3779208.3785387
-    title: "Identity Crisis in Confidential Computing: Formal Analysis of Attested TLS"
-    author:
-    - name: Muhammad Usama Sardar
-    - name: Mariam Moustafa
-    - name: Tuomas Aura
-    seriesinfo:
-      "Proceedings of the ACM Asia Conference on Computer and Communications Security": "pp. 547-560"
-    date: 2026-06
-  Intra-handshake.fail:
-    target: https://www.researchgate.net/publication/408219182_Intra-handshakefail_CVE-2026-33697_High-severity_CVE_in_Attested_TLS
-    title: "Intra-handshake.fail (CVE-2026-33697): High-severity CVE in Attested TLS"
-    author:
-    - name: Muhammad Usama Sardar
-    - name: Viacheslav Dubeyko
-    - name: Jean-Marie Jacquet
-    seriesinfo:
-      "31st European Symposium on Research in Computer Security (ESORICS)": "LNCS, to appear"
-    date: 2026-09
   SNP-ABI:
     target: https://www.amd.com/content/dam/amd/en/documents/developer/56860.pdf
     title: SEV Secure Nested Paging Firmware ABI Specification, Revision 1.58
@@ -350,7 +330,7 @@ The Endorsement may be provided to a Verifier through out of band means, or it c
 ## Relayed Results
 
 A geographic Attestation Result states where the Attester's platform was found to be, not where the Relying Party's peer is.
-An Attester elsewhere can present a genuine Result that a platform in the attested place obtained, and nothing in the Result itself shows the substitution; this is the diversion attack of {{ID-Crisis}} (Section 8).
+An Attester elsewhere can present a genuine Result that a platform in the attested place obtained, and nothing in the Result itself shows the substitution.
 
 ~~~~ aasvg
    in place P                                   elsewhere
@@ -367,11 +347,9 @@ An Attester elsewhere can present a genuine Result that a platform in the attest
 ~~~~
 {: #fig-relay title="A relayed Result, and the binding that defeats it"}
 
-A Relying Party SHOULD therefore require that the Evidence behind the Result be bound to the session in which the Result is used, and a Verifier SHOULD carry that binding into the Result.
-The binding has to be to a value derived from the session's shared secret, such as the TLS exporter value of {{RFC9266}}, placed in the freshness field of the Evidence (REPORT_DATA for AMD SEV-SNP, REPORTDATA for Intel TDX, the extraData of a TPM quote).
-Binding the Evidence to the Attester's public key, with or without a nonce, does not correlate it with the session: anyone else who holds the private key, because it leaked, was provisioned at runtime or was extracted on another machine, can present that Evidence in a session of their own, as the analysis of binding mechanisms 4 and 6 in {{Intra-handshake.fail}} shows.
-The public key MAY be included alongside the shared-secret-derived value; the binding then holds while either of the two is unknown to the attacker ({{Intra-handshake.fail}}, Section 7.2).
-A Result that is merely fresh is not bound.
+A Relying Party that uses a geographic Result to make a decision about its peer therefore needs the Result to be associated with the peer endpoint and with the connection in which it is used, and to be fresh for that exchange.
+{{Section 5 of I-D.ietf-seat-use-cases}} gives the requirements on an attested secure channel that provide this, in particular those on endpoint association and on freshness, and they apply whether the Attester conveys Evidence or an Attestation Result.
+A Verifier that supports this use SHOULD carry the binding established in the Evidence into the Result.
 
 ## Masked Platform Identities
 
