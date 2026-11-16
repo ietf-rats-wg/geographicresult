@@ -325,8 +325,8 @@ grc.near-to-label  = eat.JC<"grc.near-to", 7>
 grc.rack-U-number-label = eat.JC<"grc.rack-U-number", 8>
 grc.cabinet-number = eat.JC<"grc.cabinet-number", 9>
 grc.hallway-number = eat.JC<"grc.hallway-number", 10>
-grc.room-number = eat.JC<"grc.room-number", 12>
 grc.floor-number = eat.JC<"grc.floor-number", 11>
+grc.room-number = eat.JC<"grc.room-number", 12>
 
 grc.claim-uuid-label = eat.JC<"grc.claim-uuid", 13>
 grc.claim-uuid = corim.uuid-type
