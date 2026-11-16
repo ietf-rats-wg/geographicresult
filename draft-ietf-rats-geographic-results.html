@@ -1697,7 +1697,7 @@ The Endorsement may be provided to a Verifier through out of band means, or it c
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-relayed-results" class="section-name selfRef">Relayed Results</a>
         </h3>
 <p id="section-5.3-1">A geographic Attestation Result states where the Attester's platform was found to be, not where the Relying Party's peer is.
-An Attester elsewhere can present a genuine Result that a platform in the attested place obtained, and nothing in the Result itself shows the substitution; this is the diversion attack of <span>[<a href="#ID-Crisis" class="cite xref">ID-Crisis</a>]</span> (Section 8).<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+An Attester elsewhere can present a genuine Result that a platform in the attested place obtained, and nothing in the Result itself shows the substitution.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <span id="name-a-relayed-result-and-the-bi"></span><div id="fig-relay">
 <figure id="figure-2">
           <div id="section-5.3-2.1">
@@ -1761,11 +1761,9 @@ An Attester elsewhere can present a genuine Result that a platform in the attest
 <a href="#name-a-relayed-result-and-the-bi" class="selfRef">A relayed Result, and the binding that defeats it</a>
           </figcaption></figure>
 </div>
-<p id="section-5.3-3">A Relying Party <span class="bcp14">SHOULD</span> therefore require that the Evidence behind the Result be bound to the session in which the Result is used, and a Verifier <span class="bcp14">SHOULD</span> carry that binding into the Result.
-The binding has to be to a value derived from the session's shared secret, such as the TLS exporter value of <span>[<a href="#RFC9266" class="cite xref">RFC9266</a>]</span>, placed in the freshness field of the Evidence (REPORT_DATA for AMD SEV-SNP, REPORTDATA for Intel TDX, the extraData of a TPM quote).
-Binding the Evidence to the Attester's public key, with or without a nonce, does not correlate it with the session: anyone else who holds the private key, because it leaked, was provisioned at runtime or was extracted on another machine, can present that Evidence in a session of their own, as the analysis of binding mechanisms 4 and 6 in <span>[<a href="#Intra-handshake.fail" class="cite xref">Intra-handshake.fail</a>]</span> shows.
-The public key <span class="bcp14">MAY</span> be included alongside the shared-secret-derived value; the binding then holds while either of the two is unknown to the attacker (<span>[<a href="#Intra-handshake.fail" class="cite xref">Intra-handshake.fail</a>]</span>, Section 7.2).
-A Result that is merely fresh is not bound.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.3-3">A Relying Party that uses a geographic Result to make a decision about its peer therefore needs the Result to be associated with the peer endpoint and with the connection in which it is used, and to be fresh for that exchange.
+<span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-seat-use-cases-02#section-5" class="relref">Section 5</a> of [<a href="#I-D.ietf-seat-use-cases" class="cite xref">I-D.ietf-seat-use-cases</a>]</span> gives the requirements on an attested secure channel that provide this, in particular those on endpoint association and on freshness, and they apply whether the Attester conveys Evidence or an Attestation Result.
+A Verifier that supports this use <span class="bcp14">SHOULD</span> carry the binding established in the Evidence into the Result.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="masked-platform-identities">
@@ -1891,6 +1889,10 @@ encoded results as Private Use values prior to publication of an RFC.<a href="#s
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="I-D.ietf-seat-use-cases">[I-D.ietf-seat-use-cases]</dt>
+        <dd>
+<span class="refAuthor">Mihalcea, I.</span>, <span class="refTitle">"Security Goals and Use Cases for Integrating Remote Attestation with Secure Channel Protocols"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-seat-use-cases-02</span>, <time datetime="2026-11-02" class="refDate">2 November 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-seat-use-cases-02">https://datatracker.ietf.org/doc/html/draft-ietf-seat-use-cases-02</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.lkspa-rats-verifiable-geo-fence">[I-D.lkspa-rats-verifiable-geo-fence]</dt>
         <dd>
 <span class="refAuthor">Krishnan, R.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Lopez, D.</span>, <span class="refAuthor">Prasad, A.</span>, <span class="refAuthor">Addepalli, S.</span>, and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"Verifiable Proof of Environment Attestation Profile"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-lkspa-rats-verifiable-geo-fence-04</span>, <time datetime="2026-10-31" class="refDate">31 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-lkspa-rats-verifiable-geo-fence-04">https://datatracker.ietf.org/doc/html/draft-lkspa-rats-verifiable-geo-fence-04</a>&gt;</span>. </dd>
@@ -1907,17 +1909,9 @@ encoded results as Private Use values prior to publication of an RFC.<a href="#s
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"JSON Web Token (JWT)"</span>, <span>&lt;<a href="https://www.iana.org/assignments/jwt">https://www.iana.org/assignments/jwt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="ID-Crisis">[ID-Crisis]</dt>
-        <dd>
-<span class="refAuthor">Sardar, M. U.</span>, <span class="refAuthor">Moustafa, M.</span>, and <span class="refAuthor">T. Aura</span>, <span class="refTitle">"Identity Crisis in Confidential Computing: Formal Analysis of Attested TLS"</span>, <span class="seriesInfo">Proceedings of the ACM Asia Conference on Computer and Communications Security pp. 547-560</span>, <time datetime="2026-06" class="refDate">June 2026</time>, <span>&lt;<a href="https://doi.org/10.1145/3779208.3785387">https://doi.org/10.1145/3779208.3785387</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="IDevID">[IDevID]</dt>
         <dd>
 <span class="refAuthor">IEEE Standard</span>, <span class="refTitle">"IEEE 802.1AR Secure Device Identifier"</span>, <time datetime="2018" class="refDate">2018</time>, <span>&lt;<a href="https://1.ieee802.org/security/802-1ar/">https://1.ieee802.org/security/802-1ar/</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="Intra-handshake.fail">[Intra-handshake.fail]</dt>
-        <dd>
-<span class="refAuthor">Sardar, M. U.</span>, <span class="refAuthor">Dubeyko, V.</span>, and <span class="refAuthor">J.-M. Jacquet</span>, <span class="refTitle">"Intra-handshake.fail (CVE-2026-33697): High-severity CVE in Attested TLS"</span>, <span class="seriesInfo">31st European Symposium on Research in Computer Security (ESORICS) LNCS, to appear</span>, <time datetime="2026-09" class="refDate">September 2026</time>, <span>&lt;<a href="https://www.researchgate.net/publication/408219182_Intra-handshakefail_CVE-2026-33697_High-severity_CVE_in_Attested_TLS">https://www.researchgate.net/publication/408219182_Intra-handshakefail_CVE-2026-33697_High-severity_CVE_in_Attested_TLS</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="LLDP">[LLDP]</dt>
         <dd>
@@ -1930,10 +1924,6 @@ encoded results as Private Use values prior to publication of an RFC.<a href="#s
 <dt id="ptp">[ptp]</dt>
         <dd>
 <span class="refAuthor">Wikipedia</span>, <span class="refTitle">"Precision Time Protocol"</span>, <time datetime="2025-10-07" class="refDate">7 October 2025</time>, <span>&lt;<a href="https://en.wikipedia.org/wiki/Precision_Time_Protocol">https://en.wikipedia.org/wiki/Precision_Time_Protocol</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC9266">[RFC9266]</dt>
-        <dd>
-<span class="refAuthor">Whited, S.</span>, <span class="refTitle">"Channel Bindings for TLS 1.3"</span>, <span class="seriesInfo">RFC 9266</span>, <span class="seriesInfo">DOI 10.17487/RFC9266</span>, <time datetime="2022-07" class="refDate">July 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9266">https://www.rfc-editor.org/rfc/rfc9266</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9360">[RFC9360]</dt>
         <dd>
