@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-15T05:45:15.022408+00:00",
+  "timestamp": "2026-11-17T07:22:49.224765+00:00",
   "repo": "ietf-rats-wg/geographicresult",
   "labels": [
     {
@@ -111,6 +111,22 @@
       "body": "The text currently says:\n\n````\nA zone can be defined by a geographic\nboundary, such as a polygon, or by a set of physical placements, such as rooms\nor cabinets. The claim can appear alone or alongside the placement and\njurisdiction claims. For example, a Verifier could report membership in an\napproved zone spanning several rooms and also report the cabinet number.\n\nThe `zone-id` is assigned by the operator and interpreted in a namespace known\nto the Verifier and Relying Party.\n````\n\nThis might be too loose/vague. \n",
       "createdAt": "2026-11-14T21:14:43Z",
       "updatedAt": "2026-11-14T21:14:43Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 20,
+      "id": "I_kwDOPwVOic8AAAABf3mZAA",
+      "title": "be very very clear about how Endorsements might go bad, and need a clear expiry",
+      "url": "https://github.com/ietf-rats-wg/geographicresult/issues/20",
+      "state": "OPEN",
+      "author": "mcr",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\n\nDave Thaler: I think it's worth saying something, at least that the duration of validity may vary from the other case you mention.  \"Your kernel was secure\" can change whenever there is a new CVE.  \"Your device is in a datacenter in Montana\" is valid based on how long it would take to transport it to Canada.Dave Thaler: So your point is that the Appraisal Policy for Attestation Results can take such timeliness into account on a per claim basis, if it needs to.Kathleen Moriarty: Ned and I are discussing putting open mic before the one hour talk tomorrow, then letting the talk run until the end. Henk will likely run until we end, so we won't have open mic. We'll state this in the agenda bash tomorrow.Michael Richardson: Dave Thaler [said](https://github.com/ietf-rats-wg/geographicresult/issues/new#narrow/channel/45-rats/topic/ietf-127/near/240936):\n\nI think it's worth saying something, at least that the duration of validity may vary from the other case you mention.  \"Your kernel was secure\" can change whenever there is a new CVE.  \"Your device is in a datacenter in Montana\" is valid based on how long it would take to transport it to Canada.\n\n. o O ( Should we convert all these WWII cross-border airports to DCs.  https://en.wikipedia.org/wiki/Piney_Pinecreek_Border_Airport )",
+      "createdAt": "2026-11-17T00:04:05Z",
+      "updatedAt": "2026-11-17T00:04:05Z",
       "closedAt": null,
       "comments": []
     }
@@ -717,6 +733,61 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 19,
+      "id": "PR_kwDOPwVOic8AAAABPiFKlw",
+      "title": "update refs",
+      "url": "https://github.com/ietf-rats-wg/geographicresult/pull/19",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Replace the reference to ID crisis (and large part of the related prose) with a reference to \u00a75 of the seat-use-cases draft, which provides a more general set of requirements for an attested secure channel",
+      "createdAt": "2026-11-16T12:52:50Z",
+      "updatedAt": "2026-11-16T22:42:52Z",
+      "baseRepository": "ietf-rats-wg/geographicresult",
+      "baseRefName": "main",
+      "baseRefOid": "19b0290fe59867d772d2daf626a1ef3d6d48ddb7",
+      "headRepository": "thomas-fossati/geographicresult",
+      "headRefName": "main",
+      "headRefOid": "a6c94ce4e9b69ac4dcab4e603b37d797e60465ac",
+      "closedAt": "2026-11-16T22:42:52Z",
+      "mergedAt": "2026-11-16T22:42:52Z",
+      "mergedBy": "mcr",
+      "mergeCommit": {
+        "oid": "a11afdc8a4c78a4108111adf2407710f085b33ca"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOPwVOic8AAAABYOEv4g",
+          "commit": {
+            "abbreviatedOid": "a6c94ce"
+          },
+          "author": "nikolaichuk7",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Agreed, and thank you.\n\nSection 4.3.2 of the SEAT use cases is the relay of our figure, and it covers a case that the paragraph I wrote did not: the platform in the attested place produces Evidence that carries the binder of the attacker's connection. The exporter value alone does not stop that. Section 5.2 states what is needed in general terms, so the reference is the better home for it.\n",
+          "createdAt": "2026-11-16T12:58:36Z",
+          "updatedAt": "2026-11-16T12:58:36Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOPwVOic8AAAABYSUSeg",
+          "commit": {
+            "abbreviatedOid": "a6c94ce"
+          },
+          "author": "mcr",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-11-16T17:53:52Z",
+          "updatedAt": "2026-11-16T17:53:52Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
