@@ -44,6 +44,12 @@ normative:
   I-D.ietf-rats-endorsements:
 
 informative:
+  GCP-EK-Captures:
+    target: https://github.com/nikolaichuk7/geoar-verifier/blob/1572956f80ee41c41fdc2acafbcb59db5db6e7d5/gcp-cvm/RESULTS.md
+    title: "Results: Google Cloud Confidential VMs, SEV-SNP (VCEK) and Intel TDX"
+    author:
+    - name: Serhii Nikolaichuk
+    date: 2026-09-11
   I-D.ietf-seat-use-cases:
   RFC9360:
   SNP-ABI:
@@ -401,8 +407,10 @@ encoded results as Private Use values prior to publication of an RFC.
 
 # Worked Examples {#examples}
 
-The two results below were produced by a minimal Verifier written against the CDDL in this document and run over hardware-signed attestation artifacts captured from a single workload in public clouds.
-Both verify against public roots; both yield `jurisdiction-country` "NL"; they rest on different classes.
+A minimal Verifier written against the CDDL in this document produced the
+first two results from attestation artifacts captured in public clouds.
+The input signatures verify against public roots. Both results carry
+`jurisdiction-country` "NL" and have different basis classes.
 
 ## Microsoft Azure, West Europe (basis: endorsement)
 
@@ -452,6 +460,54 @@ Both maps validate against the CDDL in this document; a map carrying `basis` 3, 
 The Verifier used is a minimal implementation of this document written by one of the authors.
 Across the 26 artifacts of the capture (twelve AWS Nitro documents, ten SEV-SNP reports, four Azure tokens) every signature verified against its public root.
 The Verifier emitted a geographic result for the 19 artifacts that carried any locational input and none for the seven SEV-SNP reports that carried none at all; all 19 results validate.
+
+## Zone membership from a Google Cloud Endorsement (basis: endorsement)
+
+This illustrative result combines the certificate observations in
+{{GCP-EK-Captures}} with a synthetic operator policy. In the captured
+Shielded VM vTPM Endorsement Key (EK) certificates, an extension covered by
+Google's certificate signature contains the Compute Engine zone and
+identifiers for the project and VM. Assume that the Verifier has validated
+the certificate chain to a trusted Google root and established the
+certified vTPM's association with the Target Environment. For a decision
+about a live peer, the freshness and endpoint-association requirements in
+{{relayed-results}} also apply. The Verifier treats `europe-west4-a` as
+Google's placement assertion and records `basis` as `endorsement`.
+
+For this example, the operator assigns `approved-compute` in a namespace
+agreed with the Verifier and Relying Party. The zone definition is a set
+of allowed Compute Engine zones. Its current definition consists of the
+UTF-8 bytes of `["europe-west4-a"]`, with no trailing newline. The Verifier
+checks that the asserted zone is in this set and includes the SHA-256
+digest of those bytes in the geographic claims of its signed EAR.
+
+~~~~
+{::include examples/google-zone-membership.edn}
+~~~~
+
+Encoded geographic claims (56 bytes):
+
+~~~~
+{::include examples/google-zone-membership.hex}
+~~~~
+
+The illustrated map omits the raw provider zone label, project and instance
+identifiers, and certificate. A Relying Party that knows this single-zone
+definition can infer the provider zone from the membership claim. See
+{{confidentiality-threats}} for a method that also keeps precise
+coordinates from the Verifier.
+
+The Relying Party checks the zone ID and digest against its current policy.
+The example result meets this check. Suppose an earlier definition under
+the same ID used the following UTF-8 bytes, also with no trailing newline.
+
+~~~~
+["europe-west4-a","europe-west4-b"]
+~~~~
+
+Even if an EAR for that definition passes the signature, freshness, and
+subject checks and carries the expected zone ID, it fails the
+zone-membership policy check because the digest differs.
 
 ## A result resting on another result (basis: attestation-result, with basis-ref and an observation window)
 
